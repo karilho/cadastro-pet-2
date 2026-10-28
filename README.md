@@ -57,7 +57,7 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 
 ## Endpoints que o seu backend precisa ter
 
-O front tem o mesmo menu do V1. Cada opção chama estes endpoints:
+Estes são os **requisitos obrigatórios do backend**. O front só funciona se TODOS forem atendidos, e cada um é chamado por uma tela. Seu backend roda na porta **8080**.
 
 | Opção do menu | Endpoint(s) chamado(s) |
 |---|---|
@@ -68,17 +68,95 @@ O front tem o mesmo menu do V1. Cada opção chama estes endpoints:
 | 5 - Listar pets por algum critério | `GET /pets?...` |
 | 6 - Sair | (nenhum) |
 
-E o que cada endpoint faz:
+### Requisito 1: Cadastrar um pet
 
-| Endpoint | O que faz | Sucesso |
-|---|---|---|
-| `POST /pets` | Cadastra um pet | `201 Created` |
-| `GET /pets` | Lista todos, ou busca com filtros (`tipo`, `nome`, `sexo`, `idadeMin`, `idadeMax`, `pesoMin`, `pesoMax`, `raca`, `endereco`) | `200 OK` |
-| `GET /pets/{id}` | Busca um pet pelo id | `200 OK` |
-| `PUT /pets/{id}` | Altera os dados de um pet (tipo e sexo não mudam) | `200 OK` |
-| `DELETE /pets/{id}` | Exclui um pet | `204 No Content` |
+`POST /pets`
 
-Formato do JSON, filtros, status de erro e CORS: [04. Contrato da API](docs/04-contrato-da-api.md).
+- **Chamado por:** menu 1.
+- **O que deve fazer:** receber os dados de um pet, validar TODAS as [regras de negócio](docs/01-regras-de-negocio.md), gerar o `id` e a `dataCadastro`, guardar o pet e devolver o pet criado.
+- **Corpo da requisição (JSON):**
+
+  ```json
+  {
+    "nomeCompleto": "Florzinha da Silva",
+    "tipo": "GATO",
+    "sexo": "FEMEA",
+    "endereco": { "numeroCasa": "456", "cidade": "Seilândia", "rua": "Rua Azul" },
+    "idade": 6,
+    "peso": 5.0,
+    "raca": "Siamês"
+  }
+  ```
+
+- **Obrigatórios:** `tipo`, `sexo`, `endereco.cidade` e `endereco.rua`. Os outros podem faltar ou vir vazios, e voltam como `null`.
+- **Sucesso:** `201 Created`, com o header `Location` apontando para `/pets/{id}` e o pet criado no corpo (agora com `id` e `dataCadastro`).
+- **Erro:** `400 Bad Request` com a lista de **todos** os campos inválidos, não só o primeiro.
+
+### Requisito 2: Listar e buscar pets
+
+`GET /pets`
+
+- **Chamado por:** menu 4 (listar todos), menu 5 (por critério) e menus 2 e 3 (para encontrar o pet a alterar ou excluir).
+- **O que deve fazer:** devolver os pets cadastrados. Sem parâmetros, devolve **todos**, em ordem crescente de `id`. Com parâmetros, devolve só os pets que atendem a **todos** eles (E, nunca OU).
+- **Parâmetros (todos opcionais):**
+
+  | Parâmetro | Como busca |
+  |---|---|
+  | `tipo` | Exato: `CACHORRO` ou `GATO` |
+  | `sexo` | Exato: `MACHO` ou `FEMEA` |
+  | `nome` | Parte do nome |
+  | `raca` | Parte da raça |
+  | `endereco` | Parte da cidade **ou** da rua |
+  | `idadeMin`, `idadeMax` | Idade maior ou igual / menor ou igual |
+  | `pesoMin`, `pesoMax` | Peso maior ou igual / menor ou igual |
+
+- **Texto (`nome`, `raca`, `endereco`):** a busca é por **parte** do texto e ignora maiúsculas, minúsculas e **acentos** (`flor` acha `Florzinha`, `siames` acha `Siamês`).
+- **Pet com campo `null`:** nunca atende a um filtro daquele campo (um pet sem idade não aparece em `idadeMin=1`).
+- **Sucesso:** `200 OK` com uma lista JSON. Nenhum resultado devolve `[]`, **nunca** `404`.
+- **Erro:** `400 Bad Request` para valor inválido (`tipo=XYZ`, `idadeMin=abc`).
+- **Exemplos:** `GET /pets?tipo=GATO&sexo=FEMEA&raca=siames` e `GET /pets?endereco=colombo`.
+
+### Requisito 3: Buscar um pet pelo id
+
+`GET /pets/{id}`
+
+- **Chamado por:** nenhuma tela do front. É requisito da API REST e você vai usá-lo nos testes e nos próximos passos.
+- **O que deve fazer:** devolver o pet com aquele `id`.
+- **Sucesso:** `200 OK` com o pet.
+- **Erro:** `404 Not Found` se não existir (`Pet não encontrado.`) e `400 Bad Request` se o `id` não for um número.
+
+### Requisito 4: Alterar um pet
+
+`PUT /pets/{id}`
+
+- **Chamado por:** menu 2, depois que o usuário escolhe o pet e salva.
+- **O que deve fazer:** substituir os dados editáveis do pet pelos dados recebidos, validando TODAS as [regras de negócio](docs/01-regras-de-negocio.md), como no cadastro.
+- **Corpo da requisição:** o mesmo do cadastro.
+- **Regras:**
+  - **Tipo e sexo nunca mudam.** Se vierem com valor diferente do cadastrado, `400` com a mensagem `Tipo e sexo não podem ser alterados.`. Se vierem iguais, tudo bem.
+  - `id` e `dataCadastro` nunca mudam.
+- **Sucesso:** `200 OK` com o pet já alterado.
+- **Erro:** `400 Bad Request` (dado inválido, com todos os campos) e `404 Not Found` (pet não existe).
+
+### Requisito 5: Excluir um pet
+
+`DELETE /pets/{id}`
+
+- **Chamado por:** menu 3, depois que o usuário confirma a exclusão (**a confirmação é do front**, a API só exclui).
+- **O que deve fazer:** remover o pet com aquele `id`.
+- **Sucesso:** `204 No Content`, sem corpo.
+- **Erro:** `404 Not Found` se não existir e `400 Bad Request` se o `id` não for número.
+
+### Requisitos que valem para TODOS os endpoints
+
+1. **JSON** em todas as requisições e respostas.
+2. **Campo opcional não informado volta como `null`.** O texto `NÃO INFORMADO` não existe no backend, quem mostra é o front.
+3. **Toda resposta de erro tem o mesmo formato**, com `status`, `erro`, `mensagem`, `campos`, `caminho` e `timestamp`. O front usa `campos` para mostrar cada mensagem embaixo do campo certo.
+4. **Mensagens de erro exatamente as da [tabela padrão](docs/01-regras-de-negocio.md#4-mensagens-de-erro-padrão).**
+5. **`500` nunca vaza** stack trace, nome de classe, de tabela ou erro do banco.
+6. **CORS liberado só para a origem do front** (`http://localhost:5500`), com os métodos `GET`, `POST`, `PUT`, `DELETE` e `OPTIONS`. Sem isso, o navegador bloqueia as chamadas.
+
+Formato completo do JSON, dos erros e exemplos de cada resposta: [04. Contrato da API](docs/04-contrato-da-api.md).
 
 Se o seu backend não responder, o front **mostra um aviso de erro** na tela. Ele não guarda nenhum pet por conta própria: tudo que aparece vem da sua API.
 

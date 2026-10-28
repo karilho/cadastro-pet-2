@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Abrigo de Pets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <h1>Abrigo de Pets</h1>
+    <button type="button" id="botao-novo" class="botao botao-principal">Novo pet</button>
+  </header>
+
+  <main class="conteudo">
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+
+    <section aria-labelledby="titulo-filtros" class="cartao">
+      <h2 id="titulo-filtros">Buscar</h2>
+      <form id="form-filtros" class="grade">
+        <label>Nome ou sobrenome
+          <input type="text" name="nome" autocomplete="off">
+        </label>
+        <label>Raça
+          <input type="text" name="raca" autocomplete="off">
+        </label>
+        <label>Cidade
+          <input type="text" name="cidade" autocomplete="off">
+        </label>
+        <label>Tipo
+          <select name="tipo"><option value="">Todos</option></select>
+        </label>
+        <label>Sexo
+          <select name="sexo"><option value="">Todos</option></select>
+        </label>
+        <label>Idade mínima
+          <input type="text" name="idadeMin" inputmode="decimal" autocomplete="off">
+        </label>
+        <label>Idade máxima
+          <input type="text" name="idadeMax" inputmode="decimal" autocomplete="off">
+        </label>
+        <label>Peso mínimo (kg)
+          <input type="text" name="pesoMin" inputmode="decimal" autocomplete="off">
+        </label>
+        <label>Peso máximo (kg)
+          <input type="text" name="pesoMax" inputmode="decimal" autocomplete="off">
+        </label>
+        <div class="acoes">
+          <button type="submit" class="botao botao-principal">Buscar</button>
+          <button type="button" id="botao-limpar" class="botao">Limpar</button>
+        </div>
+      </form>
+    </section>
+
+    <section aria-labelledby="titulo-lista" class="cartao">
+      <h2 id="titulo-lista">Pets <span id="contagem" class="contagem"></span></h2>
+      <p id="vazio" class="vazio" hidden>Nenhum pet encontrado.</p>
+      <ul id="lista" class="lista"></ul>
+    </section>
+  </main>
+
+  <dialog id="dialogo" aria-labelledby="titulo-dialogo">
+    <form id="form-pet" novalidate>
+      <h2 id="titulo-dialogo">Novo pet</h2>
+
+      <div class="grade">
+        <label class="largo">Nome e sobrenome
+          <input type="text" name="nomeCompleto" autocomplete="off">
+          <small class="erro" data-erro-de="nomeCompleto"></small>
+        </label>
+
+        <label>Tipo *
+          <select name="tipo"><option value="">Selecione</option></select>
+          <small class="erro" data-erro-de="tipo"></small>
+        </label>
+
+        <label>Sexo *
+          <select name="sexo"><option value="">Selecione</option></select>
+          <small class="erro" data-erro-de="sexo"></small>
+        </label>
+
+        <label>Número da casa
+          <input type="text" name="numeroCasa" inputmode="numeric" autocomplete="off">
+          <small class="erro" data-erro-de="endereco.numeroCasa"></small>
+        </label>
+
+        <label>Cidade *
+          <input type="text" name="cidade" autocomplete="off">
+          <small class="erro" data-erro-de="endereco.cidade"></small>
+        </label>
+
+        <label class="largo">Rua *
+          <input type="text" name="rua" autocomplete="off">
+          <small class="erro" data-erro-de="endereco.rua"></small>
+        </label>
+
+        <label>Idade aproximada (anos)
+          <input type="text" name="idade" inputmode="decimal" autocomplete="off">
+          <small class="erro" data-erro-de="idade"></small>
+        </label>
+
+        <label>Peso aproximado (kg)
+          <input type="text" name="peso" inputmode="decimal" autocomplete="off">
+          <small class="erro" data-erro-de="peso"></small>
+        </label>
+
+        <label class="largo">Raça
+          <input type="text" name="raca" autocomplete="off">
+          <small class="erro" data-erro-de="raca"></small>
+        </label>
+      </div>
+
+      <p id="erro-geral" class="erro-geral" role="alert" hidden></p>
+
+      <div class="acoes">
+        <button type="button" id="botao-cancelar" class="botao">Cancelar</button>
+        <button type="submit" class="botao botao-principal">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

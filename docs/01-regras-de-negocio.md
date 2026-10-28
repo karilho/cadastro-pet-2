@@ -148,17 +148,18 @@ Use estas mensagens exatas. Assim os seus testes e os de outras pessoas são com
 | Nome ou sobrenome | Por **parte** do texto (`FLOR` encontra `Florzinha da Silva`) |
 | Tipo | Valor exato (`Cachorro` ou `Gato`) |
 | Sexo | Valor exato (`Macho` ou `Femea`) |
-| Idade | Faixa (mínima e máxima) |
-| Peso | Faixa (mínimo e máximo) |
+| Idade | Faixa (mínima e máxima). A tela envia o mesmo valor nos dois extremos para buscar uma idade exata |
+| Peso | Faixa (mínimo e máximo). A tela envia o mesmo valor nos dois extremos para buscar um peso exato |
 | Raça | Por **parte** do texto |
-| Cidade | Por **parte** do texto |
+| Endereço | Por **parte** da cidade **ou** da rua |
 
 ### 5.2 Regras da busca
 
 1. A busca ignora maiúsculas e minúsculas e também **acentos** (`siames` encontra `Siamês`).
 2. Os critérios podem ser combinados. Quando mais de um é usado, o pet precisa atender a TODOS (E, nunca OU).
-3. O resultado é sempre uma lista. Sem resultado, a lista vem vazia: **não é erro**.
-4. Sem nenhum critério, a busca devolve todos os pets.
+3. Na tela, como no V1, o usuário escolhe o **tipo do animal primeiro** e depois **1 ou 2 critérios**. A API aceita qualquer combinação, inclusive nenhuma.
+4. O resultado é sempre uma lista. Sem resultado, a lista vem vazia: **não é erro**.
+5. Sem nenhum critério, a busca devolve todos os pets.
 
 ### 5.3 Como o front mostra o resultado
 

@@ -38,7 +38,7 @@ Este é o coração do desafio. Você constrói o **backend** e o front pronto (
 
 ### Endpoints
 
-10. Implemente os cinco endpoints exatamente como em [04-contrato-da-api.md](../04-contrato-da-api.md#2-endpoints): rotas, status de sucesso e headers (`Location` no `POST`).
+10. Implemente os cinco endpoints exatamente como em [04-contrato-da-api.md](../04-contrato-da-api.md#2-endpoints): rotas, status de sucesso e headers (`Location` no `POST`). A tabela [Menu da tela e rotas](../04-contrato-da-api.md#menu-da-tela-e-rotas) mostra qual tela do front chama qual rota.
 11. A busca com filtros (`GET /pets?...`) devolve os ids esperados da [tabela de exemplos](../04-contrato-da-api.md#22-get-pets-listar-e-buscar).
 12. `PUT` nunca altera `tipo`, `sexo`, `id` nem `dataCadastro`.
 

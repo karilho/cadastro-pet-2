@@ -11,7 +11,7 @@ YouTube: [@devmagro](https://www.youtube.com/@devmagro)
 ## Introdução
 Este é o **segundo grande desafio do guia**. Você já fez o [Sistema de Cadastros V1](https://github.com/karilho/desafioCadastro), um programa de terminal com arquivos `.txt`. Agora vamos evoluir o MESMO sistema usando o que você aprendeu na **Parte 2** do guia: SQL, JDBC, Maven e Spring Boot.
 
-No V2 o abrigo de animais ganha um **sistema de verdade**: uma **API REST** com banco de dados, validações, tratamento de erros e testes, e uma **tela web** para usar tudo isso.
+No V2 o abrigo de animais ganha um **sistema de verdade**: uma **API REST** com banco de dados, validações, tratamento de erros e testes, e uma **tela web com o mesmo menu do V1**, uma página para cada opção, para usar tudo isso.
 
 **A tela já vem pronta.** O desafio é o **backend**. Você constrói a API e vê tudo funcionando no front.
 
@@ -65,7 +65,7 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 | [02. Ambiente e banco](docs/02-ambiente-e-banco.md) | O que instalar, como preparar o banco e o usuário, variáveis de ambiente, estrutura de pastas |
 | [03. Modelo de dados](docs/03-modelo-de-dados.md) | Entidades, atributos, models do Java, dados de exemplo e resultados esperados |
 | [04. Contrato da API](docs/04-contrato-da-api.md) | Endpoints, JSON, filtros, status, formato de erro e CORS |
-| [05. Front-end pronto](docs/05-frontend.md) | Como rodar o front, como ele se integra com a API e o que ele espera |
+| [05. Front-end pronto](docs/05-frontend.md) | Como rodar o front, qual tela chama qual rota, como ele se integra com a API e o que ele espera |
 
 ### Passos (faça em ordem)
 
@@ -89,7 +89,7 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 
 | Arquivo | Para que serve |
 |---|---|
-| [`frontend/`](frontend) | A tela pronta: HTML, CSS e JavaScript, sem build |
+| [`frontend/`](frontend) | A tela pronta, com o mesmo menu do V1 (uma página por opção). HTML, CSS e JavaScript, sem build |
 | [`.env.example`](.env.example) | Modelo das variáveis de ambiente do banco |
 | [`.gitignore`](.gitignore) | Já ignora `target/`, IDEs e arquivos de segredo (inclusive o `.env`) |
 

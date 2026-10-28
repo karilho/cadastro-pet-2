@@ -7,6 +7,21 @@ Especificação dos endpoints do Passo 4. Quem consome a sua API (Postman, front
 - **Front que consome este contrato:** [05-frontend.md](05-frontend.md)
 - **Regras de negócio:** [01-regras-de-negocio.md](01-regras-de-negocio.md)
 
+## Menu da tela e rotas
+
+O front tem o mesmo menu do V1. Cada opção abre uma tela, e cada tela chama as rotas abaixo. Os nomes das rotas ficam em um lugar só, [`frontend/js/config.js`](../frontend/js/config.js).
+
+| Opção do menu | Tela | Rota(s) que a sua API precisa ter |
+|---|---|---|
+| 1 - Cadastrar um novo pet | `cadastrar.html` | `POST /pets` |
+| 2 - Alterar os dados de um pet | `alterar.html` | `GET /pets?...` (buscar) e `PUT /pets/{id}` |
+| 3 - Deletar um pet | `deletar.html` | `GET /pets?...` (buscar) e `DELETE /pets/{id}` |
+| 4 - Listar todos os pets | `listar.html` | `GET /pets` |
+| 5 - Listar pets por critério | `buscar.html` | `GET /pets?...` |
+| 6 - Sair | `sair.html` | (nenhuma) |
+
+Detalhes de cada rota nas seções abaixo.
+
 ## 1. Representação do pet
 
 ### Resposta (o que a API devolve)
@@ -109,7 +124,7 @@ Sem filtros devolve todos, ordenados por `id` crescente. Com filtros, devolve s�
 |---|---|---|
 | `nome` | texto | Parte do nome, sem caixa e sem acento |
 | `raca` | texto | Parte da raça, sem caixa e sem acento |
-| `cidade` | texto | Parte da cidade, sem caixa e sem acento |
+| `endereco` | texto | Parte da cidade **ou** da rua, sem caixa e sem acento |
 | `tipo` | `CACHORRO` ou `GATO` | Exato |
 | `sexo` | `MACHO` ou `FEMEA` | Exato |
 | `idadeMin` | número | Idade maior ou igual |
@@ -131,7 +146,8 @@ Exemplos (com o [seed](03-modelo-de-dados.md#8-dados-de-exemplo-seed) carregado)
 | `GET /pets?tipo=GATO&idadeMin=1` | 2, 7, 8 |
 | `GET /pets?pesoMax=5` | 1, 2, 4, 5, 8 |
 | `GET /pets?idadeMin=1&idadeMax=5` | 1, 3, 8, 10 |
-| `GET /pets?cidade=colombo` | 7, 10 |
+| `GET /pets?endereco=colombo` | 7, 10 |
+| `GET /pets?endereco=flor` | 1 (`Rua das Flores`) |
 | `GET /pets?nome=zzzz` | (lista vazia) |
 
 ### 2.3 `GET /pets/{id}`: buscar um

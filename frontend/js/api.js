@@ -8,10 +8,6 @@ function lerJson(texto) {
   }
 }
 
-export function descreverRota(rota) {
-  return `${rota.metodo} ${rota.caminho}`
-}
-
 // Chama uma rota de ROTAS. `id` troca o {id} do caminho, `consulta` vira query string
 // e `corpo` vira o JSON enviado.
 export async function chamarApi(rota, { id, consulta, corpo } = {}) {

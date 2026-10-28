@@ -1,7 +1,6 @@
 import { ROTAS } from './config.js'
 import { chamarApi, mensagemDeErro } from './api.js'
 import { mostrarAviso, esconderAviso } from './avisos.js'
-import { mostrarRotas } from './rotas-usadas.js'
 import { montarBusca } from './busca.js'
 import { desenharResultados } from './resultados.js'
 import {
@@ -16,7 +15,6 @@ const formulario = document.getElementById('form-pet')
 let ultimaConsulta = null
 let petEmEdicao = null
 
-mostrarRotas(document.getElementById('rotas'), [ROTAS.buscar, ROTAS.alterar])
 montarFormulario(formulario)
 travarTipoESexo(formulario, true)
 

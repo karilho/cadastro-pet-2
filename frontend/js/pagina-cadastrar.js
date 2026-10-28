@@ -1,12 +1,10 @@
 import { ROTAS } from './config.js'
 import { chamarApi } from './api.js'
 import { mostrarAviso, esconderAviso } from './avisos.js'
-import { mostrarRotas } from './rotas-usadas.js'
 import { montarFormulario, lerFormulario, limparErros, mostrarErros } from './formulario-pet.js'
 
 const formulario = document.getElementById('form-pet')
 
-mostrarRotas(document.getElementById('rotas'), [ROTAS.cadastrar])
 montarFormulario(formulario)
 
 formulario.addEventListener('submit', async (evento) => {

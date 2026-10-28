@@ -1,7 +1,6 @@
 import { ROTAS } from './config.js'
 import { chamarApi, mensagemDeErro } from './api.js'
 import { mostrarAviso, esconderAviso } from './avisos.js'
-import { mostrarRotas } from './rotas-usadas.js'
 import { montarBusca } from './busca.js'
 import { desenharResultados } from './resultados.js'
 import { textoOuPadrao } from './formato.js'
@@ -13,7 +12,6 @@ const pergunta = document.getElementById('pergunta')
 let ultimaConsulta = null
 let petParaExcluir = null
 
-mostrarRotas(document.getElementById('rotas'), [ROTAS.buscar, ROTAS.excluir])
 
 async function buscar(consulta) {
   try {

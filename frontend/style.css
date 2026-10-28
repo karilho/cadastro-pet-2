@@ -86,20 +86,6 @@ a { color: var(--principal); }
 }
 
 .menu a:hover { border-color: var(--principal); }
-.rotas-do-menu { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.8rem; color: var(--texto-suave); }
-
-/* rotas do backend usadas na tela */
-.rotas {
-  background: var(--codigo-fundo);
-  border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  color: var(--texto-suave);
-}
-
-.rotas p { margin: 0 0 0.25rem; }
-.rotas ul { margin: 0; padding-left: 1.25rem; }
-code { font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: var(--texto); }
 
 /* formulários */
 .grupo {

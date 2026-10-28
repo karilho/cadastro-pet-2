@@ -8,7 +8,7 @@ export const NAO_INFORMADO = 'NÃO INFORMADO'
 export const TIPOS = { CACHORRO: 'Cachorro', GATO: 'Gato' }
 export const SEXOS = { MACHO: 'Macho', FEMEA: 'Femea' }
 
-// As rotas que o BACKEND precisa ter. É aqui que cada tela descobre qual rota chamar.
+// As rotas que o BACKEND precisa ter (descritas no README do repositório).
 // {id} é trocado pelo id do pet.
 export const ROTAS = {
   cadastrar: { metodo: 'POST', caminho: '/pets' },
@@ -20,10 +20,10 @@ export const ROTAS = {
 
 // O menu da tela inicial, na mesma ordem do menu do V1.
 export const MENU = [
-  { numero: 1, titulo: 'Cadastrar um novo pet', pagina: 'cadastrar.html', rotas: [ROTAS.cadastrar] },
-  { numero: 2, titulo: 'Alterar os dados de um pet cadastrado', pagina: 'alterar.html', rotas: [ROTAS.buscar, ROTAS.alterar] },
-  { numero: 3, titulo: 'Deletar um pet cadastrado', pagina: 'deletar.html', rotas: [ROTAS.buscar, ROTAS.excluir] },
-  { numero: 4, titulo: 'Listar todos os pets cadastrados', pagina: 'listar.html', rotas: [ROTAS.listarTodos] },
-  { numero: 5, titulo: 'Listar pets por algum critério (idade, nome, raça)', pagina: 'buscar.html', rotas: [ROTAS.buscar] },
-  { numero: 6, titulo: 'Sair', pagina: 'sair.html', rotas: [] },
+  { numero: 1, titulo: 'Cadastrar um novo pet', pagina: 'cadastrar.html' },
+  { numero: 2, titulo: 'Alterar os dados de um pet cadastrado', pagina: 'alterar.html' },
+  { numero: 3, titulo: 'Deletar um pet cadastrado', pagina: 'deletar.html' },
+  { numero: 4, titulo: 'Listar todos os pets cadastrados', pagina: 'listar.html' },
+  { numero: 5, titulo: 'Listar pets por algum critério (idade, nome, raça)', pagina: 'buscar.html' },
+  { numero: 6, titulo: 'Sair', pagina: 'sair.html' },
 ]

@@ -23,7 +23,7 @@ Antes de dizer "terminei", passe por esta lista. Ela vale para o desafio inteiro
 O README do **seu** projeto precisa ter:
 
 - [ ] O que o projeto faz, em duas ou três frases
-- [ ] Requisitos (Java, Maven, MySQL)
+- [ ] Requisitos (Java, Maven, PostgreSQL)
 - [ ] Como criar o banco e rodar `schema.sql` e `seed.sql`
 - [ ] Quais variáveis de ambiente configurar
 - [ ] Como rodar a aplicação e como rodar os testes
@@ -51,7 +51,7 @@ O README do **seu** projeto precisa ter:
 
 ## Testes
 
-- [ ] `mvn test` passa sem MySQL
+- [ ] `mvn test` passa sem PostgreSQL
 - [ ] Cada regra de negócio tem teste
 - [ ] Cada endpoint tem teste de sucesso e de erro
 
@@ -64,4 +64,4 @@ Você precisa conseguir explicar, sem olhar o código:
 - [ ] Por que o controller não fala com o banco
 - [ ] Por que `NULL` no banco e `NÃO INFORMADO` só na tela
 - [ ] A diferença entre `LIKE 'x%'` e `LIKE '%x%'` para o índice
-- [ ] Por que `DECIMAL` e não `FLOAT`
+- [ ] Por que um tipo numérico exato e não ponto flutuante para peso e idade

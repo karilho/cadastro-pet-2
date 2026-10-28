@@ -119,7 +119,7 @@ Sem filtros devolve todos, ordenados por `id` crescente. Com filtros, devolve s�
 - Nenhum resultado devolve `200 OK` com `[]`. **Não** é `404`.
 - Valor inválido de filtro (`tipo=XYZ`, `idadeMin=abc`) devolve `400`.
 
-Exemplos (com o [seed](03-modelo-de-dados.md#5-dados-de-exemplo-seed) carregado):
+Exemplos (com o [seed](03-modelo-de-dados.md#8-dados-de-exemplo-seed) carregado):
 
 | Chamada | Pets devolvidos (ids) |
 |---|---|

@@ -7,11 +7,11 @@ Agora o Java conversa com o banco, sem framework. Você vai escrever o SQL e ver
 - Passos 1 e 2 concluídos (domínio e banco com seed)
 - Guia, Parte 2, seção **Maven + JDBC**: as aulas de JDBC do DevDojo
 - Variáveis de ambiente configuradas: [02, seção 3](../02-ambiente-e-banco.md#3-configuração-por-variáveis-de-ambiente)
-- Contrato da tabela: [03-modelo-de-dados.md](../03-modelo-de-dados.md)
+- Modelo e dados de exemplo: [03-modelo-de-dados.md](../03-modelo-de-dados.md)
 
 ## O que entregar
 
-- Dependência do driver MySQL no `pom.xml`
+- Dependência do driver do PostgreSQL no `pom.xml`
 - Classe responsável pela conexão com o banco
 - Repositório de pets com JDBC puro
 - Um `main` de demonstração que exercita cada operação
@@ -20,7 +20,7 @@ Agora o Java conversa com o banco, sem framework. Você vai escrever o SQL e ver
 
 ### Conexão
 
-1. Adicione o driver (`mysql-connector-j`) pelo Maven.
+1. Adicione o driver JDBC do PostgreSQL pelo Maven.
 2. URL, usuário e senha vêm de **variáveis de ambiente** (`DB_URL`, `DB_USER`, `DB_PASSWORD`). Nada disso escrito no código nem no Git.
 3. Se faltar variável de ambiente, o programa avisa qual faltou, em português, e não segue.
 4. Falha de conexão vira uma exceção **técnica** (diferente das exceções de regra de negócio).
@@ -51,7 +51,7 @@ Agora o Java conversa com o banco, sem framework. Você vai escrever o SQL e ver
 
 ## Pronto quando
 
-- [ ] Salvar, buscar, listar, alterar e excluir funcionam contra o MySQL
+- [ ] Salvar, buscar, listar, alterar e excluir funcionam contra o PostgreSQL
 - [ ] A busca por `siames`, `FLOR` e `silva` devolve os ids esperados do [seed](../03-modelo-de-dados.md#resultados-esperados)
 - [ ] Salvar um pet com campos opcionais vazios grava `NULL`, e ler devolve `null`
 - [ ] Tentar alterar tipo ou sexo não muda nada no banco

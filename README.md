@@ -51,7 +51,7 @@ Este repositório tem **só as orientações**. O código é seu.
 7. Organize pastas, pacotes e nomes como achar melhor. **Não existe um caminho certo.**
 8. Só olhe as ideias de solução depois de tentar. Elas estão em outras branches, e o guia explica onde ao final da Parte 2.
 
-**Requisitos de ambiente:** Java 17 ou superior, Maven, MySQL 8, Git e uma IDE (IntelliJ, por exemplo).
+**Requisitos de ambiente:** Java 17 ou superior, Maven, PostgreSQL 15 ou superior, Git e uma IDE (IntelliJ, por exemplo).
 
 ## Mapa do desafio
 
@@ -72,7 +72,7 @@ Este repositório tem **só as orientações**. O código é seu.
 | 1 | [Projeto Maven e domínio](docs/passos/passo-1-projeto-maven-e-dominio.md) | Pet e regras de negócio em Java |
 | 2 | [Modelagem SQL](docs/passos/passo-2-modelagem-sql.md) | `schema.sql`, `seed.sql` e `queries.sql` |
 | 3 | [Persistência com JDBC](docs/passos/passo-3-persistencia-jdbc.md) | Repositório de pets com JDBC puro |
-| 4 | [O menu em cima do banco](docs/passos/passo-4-menu-no-banco.md) | O V1 refatorado, rodando no MySQL |
+| 4 | [O menu em cima do banco](docs/passos/passo-4-menu-no-banco.md) | O V1 refatorado, rodando no PostgreSQL |
 | 5 | [API REST com Spring Boot](docs/passos/passo-5-api-rest.md) | Cinco endpoints, validação e erros |
 | 6 | [Testes](docs/passos/passo-6-testes.md) | Regras, service, controller e repository testados |
 | EXTRA | [Formulário dinâmico](docs/passos/passo-extra-formulario-dinamico.md) | Perguntas e respostas no banco (opcional) |

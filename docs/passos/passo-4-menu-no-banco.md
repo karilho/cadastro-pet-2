@@ -34,7 +34,7 @@ Este é o passo que dá nome ao desafio: a refatoração. O terminal do V1 volta
 - [ ] Cadastrar o pet de exemplo (`Florzinha da Silva`) e achá-lo depois buscando `FLOR` e `siames`
 - [ ] Digitar `abc`, `0`, `-1` e `99` no menu não derruba o programa
 - [ ] Cadastrar com nome `Rex` (sem sobrenome) mostra `Informe nome e sobrenome do pet.` e pergunta de novo
-- [ ] Desligar o MySQL e abrir o programa mostra a mensagem amigável
+- [ ] Desligar o PostgreSQL e abrir o programa mostra a mensagem amigável
 - [ ] A pasta do projeto não tem nenhum `.txt` de pet
 
 ## Regra nível 2 (não obrigatória)

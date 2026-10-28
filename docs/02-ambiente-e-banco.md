@@ -1,6 +1,6 @@
 # 02. Ambiente e banco de dados
 
-Antes do Passo 1, deixe o ambiente pronto. Este documento tem tudo, na ordem.
+Antes do Passo 1, deixe o ambiente pronto. Aqui você descobre **o que** precisa existir. O **como** fazer no banco é com você: pesquise na documentação oficial e no que aprendeu no curso de SQL.
 
 ## 1. O que instalar
 
@@ -8,80 +8,55 @@ Antes do Passo 1, deixe o ambiente pronto. Este documento tem tudo, na ordem.
 |---|---|---|
 | JDK | 17 ou superior | Compilar e rodar o Java |
 | Maven | 3.9 ou superior | Dependências e build |
-| MySQL | 8.x | Banco de dados |
+| PostgreSQL | 15 ou superior | Banco de dados |
+| Cliente de banco (DBeaver, pgAdmin ou o `psql`) | Qualquer | Rodar SQL e ver os dados |
 | IntelliJ IDEA (Community) | Qualquer recente | IDE |
 | Git | Qualquer recente | Versionamento |
 | Cliente HTTP (Postman, Insomnia ou `curl`) | Qualquer | Testar a API no Passo 5 |
 
-Confira tudo no terminal:
+Confira no terminal:
 
 ```bash
 java -version
 mvn -v
-mysql --version
+psql --version
 git --version
 ```
 
 Os quatro comandos precisam responder com a versão. Se algum falhar, instale antes de continuar.
 
-### Instalando o MySQL
+### Instalando o PostgreSQL
 
-- **macOS:** `brew install mysql` e depois `brew services start mysql`
-- **Windows:** baixe o MySQL Installer no site oficial e escolha "Server only"
-- **Linux (Ubuntu/Debian):** `sudo apt install mysql-server` e `sudo systemctl start mysql`
+- **macOS:** Homebrew (`brew install postgresql@16`) e depois subir o serviço
+- **Windows:** instalador oficial em postgresql.org
+- **Linux (Ubuntu/Debian):** pacote `postgresql` do `apt`
 
-O curso de SQL do guia (Parte 2, seção 2) tem uma aula só sobre a instalação do MySQL.
+Anote a senha do usuário administrador (`postgres`) que você definir na instalação.
 
-## 2. Criando o banco e o usuário
+> O curso de SQL do guia usa MySQL nas aulas. A linguagem SQL é a mesma e os conceitos valem igualmente. Onde o PostgreSQL se comportar diferente, a documentação oficial é a sua fonte.
 
-Entre no MySQL como administrador:
+## 2. Preparando o banco
 
-```bash
-mysql -u root -p
-```
+Você precisa deixar três coisas prontas antes do Passo 2:
 
-Rode o script abaixo. Ele cria o banco, um usuário só para a aplicação e dá a esse usuário acesso somente a esse banco:
+1. Um **banco de dados** chamado `cadastro_pet`, com encoding **UTF-8**.
+2. Um **usuário só da aplicação**, sem poderes de administrador, com acesso apenas a esse banco.
+3. A capacidade de **conectar com esse usuário**, pelo `psql` ou pelo cliente gráfico, e de criar tabelas nele.
 
-```sql
-CREATE DATABASE cadastro_pet
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_0900_ai_ci;
+Por que um usuário separado do administrador? Porque a aplicação nunca deve rodar com o poder de apagar o banco inteiro. Se o Java for comprometido, o estrago fica limitado.
 
-CREATE USER 'pet_app'@'localhost' IDENTIFIED BY 'troque_esta_senha';
+Pontos para pesquisar:
 
-GRANT ALL PRIVILEGES ON cadastro_pet.* TO 'pet_app'@'localhost';
+- Como criar banco e usuário (`role`) no PostgreSQL
+- Como dar ao usuário os privilégios certos, **inclusive** sobre o schema onde as tabelas serão criadas (nas versões 15 ou superiores isso muda em relação às antigas)
+- Como o `psql` conecta com usuário, banco e porta
 
-FLUSH PRIVILEGES;
-```
+### Pronto quando
 
-Troque `troque_esta_senha` por uma senha sua.
-
-### Por que `utf8mb4_0900_ai_ci`
-
-| Parte | Significado |
-|---|---|
-| `utf8mb4` | Charset que aceita acentos e emojis |
-| `ai` | **A**ccent **i**nsensitive: `siames` e `Siamês` são iguais |
-| `ci` | **C**ase **i**nsensitive: `FLOR` e `flor` são iguais |
-
-Essa collation resolve no banco a regra de busca "ignorar maiúsculas, minúsculas e acentos" da [seção 5 das regras](01-regras-de-negocio.md#5-busca-de-pets). Ao fazer o Passo 2, comprove isso com uma consulta.
-
-### Conferindo que deu certo
-
-Saia do MySQL (`exit`) e entre com o usuário da aplicação:
-
-```bash
-mysql -u pet_app -p cadastro_pet
-```
-
-Dentro do MySQL:
-
-```sql
-SELECT DATABASE();
-SHOW TABLES;
-```
-
-`SELECT DATABASE();` deve mostrar `cadastro_pet`. `SHOW TABLES;` mostra vazio por enquanto, é o esperado.
+- [ ] Você conecta com o usuário da aplicação (não com `postgres`)
+- [ ] Você cria e apaga uma tabela de teste com esse usuário
+- [ ] O usuário da aplicação **não** consegue criar outro banco nem outro usuário
+- [ ] Você sabe explicar a diferença entre banco, schema e tabela no PostgreSQL
 
 ## 3. Configuração por variáveis de ambiente
 
@@ -93,20 +68,20 @@ A URL, o usuário e a senha do banco **nunca** ficam no código nem sobem pro Gi
    cp .env.example .env
    ```
 
-2. Edite o `.env` com a sua senha.
+2. Edite o `.env` com os seus valores.
 3. O `.env` já está no `.gitignore`. Confira com `git status`: ele não pode aparecer.
 
 Variáveis usadas:
 
 | Variável | Exemplo | Para que serve |
 |---|---|---|
-| `DB_URL` | `jdbc:mysql://localhost:3306/cadastro_pet?serverTimezone=America/Sao_Paulo` | Endereço do banco |
-| `DB_USER` | `pet_app` | Usuário do banco |
+| `DB_URL` | `jdbc:postgresql://localhost:5432/cadastro_pet` | Endereço do banco |
+| `DB_USER` | (o usuário da aplicação) | Usuário do banco |
 | `DB_PASSWORD` | (a sua senha) | Senha do usuário |
 
 ### Como o Java enxerga essas variáveis
 
-- No terminal: `export DB_USER=pet_app` (macOS/Linux) antes de rodar.
+- No terminal: `export DB_USER=...` (macOS/Linux) antes de rodar.
 - No IntelliJ: *Run > Edit Configurations > Environment variables*.
 - No código: `System.getenv("DB_USER")`.
 - No Spring Boot (Passo 5): `spring.datasource.url=${DB_URL}` no `application.properties`.
@@ -148,19 +123,18 @@ Dentro de `src/main/java`, uma organização possível para o projeto crescer se
 
 ## 5. Problemas comuns de conexão
 
-| Erro | Causa provável | Solução |
-|---|---|---|
-| `Access denied for user 'pet_app'` | Senha errada ou usuário não criado | Refaça o `CREATE USER` e o `GRANT` |
-| `Communications link failure` | MySQL parado | Inicie o serviço do MySQL |
-| `Unknown database 'cadastro_pet'` | Banco não criado | Rode o `CREATE DATABASE` |
-| `The server time zone value ... is unrecognized` | Faltou `serverTimezone` na URL | Use a `DB_URL` do `.env.example` |
-| `Public Key Retrieval is not allowed` | Autenticação do MySQL 8 | Acrescente `&allowPublicKeyRetrieval=true` na URL (só em ambiente local) |
-| `No suitable driver found` | Driver do MySQL fora do `pom.xml` | Adicione a dependência `mysql-connector-j` |
-| Acentos viram `?` | Charset errado | Confira `utf8mb4` no banco e na URL |
+| Erro | Pista |
+|---|---|
+| `password authentication failed for user` | Senha ou usuário errados. Confira o `.env` |
+| `Connection refused` | O serviço do PostgreSQL não está rodando, ou a porta está errada |
+| `database "cadastro_pet" does not exist` | O banco ainda não foi criado |
+| `No suitable driver found` | Falta a dependência do driver do PostgreSQL no `pom.xml` |
+| `permission denied for schema public` | O usuário da aplicação não tem permissão no schema. Revise os privilégios |
+| Acentos viram `?` | Confira o encoding do banco e do terminal |
 
 ## 6. Pronto quando
 
 - [ ] Os quatro comandos de versão respondem
-- [ ] Você entra no MySQL com `mysql -u pet_app -p cadastro_pet`
+- [ ] Você conecta no banco `cadastro_pet` com o usuário da aplicação
 - [ ] O `.env` existe e NÃO aparece no `git status`
-- [ ] Você sabe explicar o que é `utf8mb4_0900_ai_ci`
+- [ ] Você conhece a diferença entre o usuário `postgres` e o usuário da aplicação

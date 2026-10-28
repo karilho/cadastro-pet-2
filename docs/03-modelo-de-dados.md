@@ -1,124 +1,109 @@
 # 03. Modelo de dados
 
-Este documento define COMO os dados são guardados (banco) e COMO são representados no Java (models). Você escreve o código. Aqui está o contrato.
+Este documento define **o que** o sistema guarda: as entidades, os atributos e as regras. O **como** é com você: tipos de coluna, restrições, nomes, chaves e índices. É de propósito. Modelar banco é decidir, e decidir é onde se aprende.
 
-## 1. Tabela `pet`
+## 1. Entidade Pet
 
-### Diagrama
+Um pet é um animal encontrado e cadastrado por um abrigo para adoção.
 
-```
-┌──────────────────────────────────────────────────────┐
-│ pet                                                  │
-├──────────────────┬───────────────────────────────────┤
-│ id               │ PK, auto incremento               │
-│ nome_completo    │ texto, aceita NULL                │
-│ tipo             │ CACHORRO | GATO, obrigatório      │
-│ sexo             │ MACHO | FEMEA, obrigatório        │
-│ numero_casa      │ texto, aceita NULL                │
-│ cidade           │ texto, obrigatório                │
-│ rua              │ texto, obrigatório                │
-│ idade_anos       │ decimal, aceita NULL              │
-│ peso_kg          │ decimal, aceita NULL              │
-│ raca             │ texto, aceita NULL                │
-│ data_cadastro    │ data e hora, obrigatório          │
-└──────────────────┴───────────────────────────────────┘
-```
+| Atributo | Natureza | Obrigatório | Regra |
+|---|---|---|---|
+| Identificador | Único, gerado pelo banco | Sim | Nunca informado pelo usuário |
+| Nome completo | Texto | Não | Nome e sobrenome ([regras, seção 2.1](01-regras-de-negocio.md#21-nome-completo)) |
+| Tipo | Um entre `CACHORRO` e `GATO` | Sim | Valores fixos |
+| Sexo | Um entre `MACHO` e `FEMEA` | Sim | Valores fixos |
+| Número da casa | Texto de dígitos | Não | Só dígitos |
+| Cidade | Texto | Sim | Onde o pet foi encontrado |
+| Rua | Texto | Sim | Onde o pet foi encontrado |
+| Idade | Número decimal, em anos | Não | Maior que 0 e até 20 |
+| Peso | Número decimal, em kg | Não | De 0.5 a 60 |
+| Raça | Texto | Não | Letras, espaços e hífen |
+| Data de cadastro | Data e hora | Sim | Gerada pelo sistema, nunca informada |
 
-### Contrato das colunas
+## 2. O que o banco garante e o que o código garante
 
-| Coluna | Tipo sugerido | Nulo? | Padrão | Restrição |
-|---|---|---|---|---|
-| `id` | `BIGINT` | Não | auto incremento | Chave primária |
-| `nome_completo` | `VARCHAR(120)` | Sim | | |
-| `tipo` | `ENUM('CACHORRO','GATO')` | Não | | |
-| `sexo` | `ENUM('MACHO','FEMEA')` | Não | | |
-| `numero_casa` | `VARCHAR(10)` | Sim | | |
-| `cidade` | `VARCHAR(80)` | Não | | |
-| `rua` | `VARCHAR(120)` | Não | | |
-| `idade_anos` | `DECIMAL(4,2)` | Sim | | `CHECK` maior que 0 e até 20 |
-| `peso_kg` | `DECIMAL(5,2)` | Sim | | `CHECK` de 0.5 a 60 |
-| `raca` | `VARCHAR(60)` | Sim | | |
-| `data_cadastro` | `DATETIME` | Não | agora (`CURRENT_TIMESTAMP`) | |
+Toda regra da [seção 2 das regras](01-regras-de-negocio.md#2-regras-por-campo) precisa existir no Java. O banco **também** deve se defender onde conseguir.
 
-### Por que cada decisão
+Pense, antes de escrever o `schema.sql`:
 
-| Decisão | Motivo |
+- Quais regras o banco consegue garantir sozinho? Quais só o Java consegue?
+- Um dado inválido que escapa do Java (um `INSERT` direto, por exemplo) deveria ser recusado pelo banco?
+- O que acontece com os campos opcionais? O que o banco guarda quando o usuário não informa?
+
+> Regra do V2: o que não foi informado é guardado como **ausência de valor** (`NULL`). O texto `NÃO INFORMADO` só existe na exibição.
+
+## 3. Decisões que são suas
+
+Estas decisões não estão prontas. Tome, e esteja pronto para explicar o porquê.
+
+| Decisão | Pergunta para você responder |
 |---|---|
-| Idade e peso em `DECIMAL`, não `FLOAT` | `FLOAT` erra em casas decimais. Pesquise por que dinheiro e peso usam `DECIMAL` |
-| `numero_casa` como texto | Preserva zero à esquerda e não faz conta com ele |
-| Campos opcionais aceitam `NULL` | `NÃO INFORMADO` é só para exibir (ver [regras, seção 3](01-regras-de-negocio.md#3-não-informado)) |
-| `CHECK` em idade e peso | O banco também se defende, não só o Java |
-| `data_cadastro` com padrão | O usuário nunca informa essa data |
+| Chave primária | Qual o tipo? Como é gerada? |
+| Tipos das colunas | Texto de que tamanho? Qual tipo para idade e peso? Por que **não** usar ponto flutuante para isso? |
+| Valores fixos | Como guardar tipo e sexo? Existe mais de uma forma, qual a vantagem de cada? |
+| Restrições | Quais colunas aceitam ausência? Quais limites o banco pode conferir? |
+| Índices | Quais colunas serão mais pesquisadas? Um índice ajuda em toda busca? |
+| Busca sem caixa e sem acento | O banco que você escolheu faz isso sozinho? Se não, como se faz? |
+| Nomes | Português ou inglês? Singular ou plural? `snake_case`? Mantenha um padrão só |
+| Data de cadastro | Quem preenche: o Java ou o banco? |
 
-> **Pegadinha:** em SQL, `NULL` passa em qualquer `CHECK`. Isso é desejado aqui (idade e peso são opcionais), mas teste e entenda por quê.
+## 4. Valores dos ENUMs
 
-### Valores dos ENUMs
+Defina onde a conversão acontece e escreva isso uma vez só.
 
-No banco o valor é em maiúsculas. Na tela e no JSON da API, o tipo e o sexo aparecem de formas diferentes. Defina onde a conversão acontece e escreva isso uma vez só.
-
-| Banco e JSON | Exibição no terminal |
+| Armazenado e usado na API | Exibição no terminal |
 |---|---|
 | `CACHORRO` | `Cachorro` |
 | `GATO` | `Gato` |
 | `MACHO` | `Macho` |
 | `FEMEA` | `Femea` |
 
-### Índices
+## 5. Regra nível 2: endereço separado
 
-Crie índices para as colunas que a busca mais usa. No mínimo `nome_completo` e `raca`.
+O endereço deixa de ser parte do pet e vira sua própria entidade.
 
-> **Descubra na prática:** rode `EXPLAIN` em duas buscas e compare.
-> 1. `WHERE nome_completo LIKE 'Flor%'`
-> 2. `WHERE nome_completo LIKE '%Flor%'`
->
-> Um deles usa o índice, o outro não. Qual e por quê? Isso cai em entrevista.
+| Atributo de Endereço | Obrigatório |
+|---|---|
+| Identificador | Sim |
+| Número da casa | Não |
+| Cidade | Sim |
+| Rua | Sim |
 
-## 2. Tabela `endereco` (regra nível 2)
+Relacionamento: **um pet tem um endereço**. Como o pet referencia o endereço, e o que acontece com o endereço quando o pet é excluído, é decisão sua.
 
-Se você fizer o nível 2 do Passo 2, o endereço sai da tabela `pet` e vira outra tabela.
-
-| Coluna | Tipo sugerido | Nulo? | Restrição |
-|---|---|---|---|
-| `id` | `BIGINT` | Não | Chave primária, auto incremento |
-| `numero_casa` | `VARCHAR(10)` | Sim | |
-| `cidade` | `VARCHAR(80)` | Não | |
-| `rua` | `VARCHAR(120)` | Não | |
-
-E a tabela `pet` ganha `endereco_id`, com chave estrangeira para `endereco.id` e sem as três colunas de endereço.
-
-## 3. Tabelas do Passo EXTRA
+## 6. Passo EXTRA: perguntas e respostas
 
 Só para quem fizer o formulário dinâmico.
 
-### `pergunta`
+### Entidade Pergunta
 
-| Coluna | Tipo sugerido | Nulo? | Restrição |
-|---|---|---|---|
-| `id` | `BIGINT` | Não | Chave primária, auto incremento |
-| `numero` | `INT` | Não | Único. É a numeração exibida (1, 2, 3...) |
-| `texto` | `VARCHAR(255)` | Não | |
-| `original` | `BOOLEAN` | Não | `TRUE` para as perguntas de 1 a 7 |
+| Atributo | Obrigatório | Observação |
+|---|---|---|
+| Identificador | Sim | |
+| Número | Sim | Numeração exibida (1, 2, 3...). Não repete |
+| Texto | Sim | |
+| Original | Sim | Verdadeiro para as perguntas de 1 a 7 |
 
-### `resposta`
+### Entidade Resposta
 
-| Coluna | Tipo sugerido | Nulo? | Restrição |
-|---|---|---|---|
-| `id` | `BIGINT` | Não | Chave primária, auto incremento |
-| `pet_id` | `BIGINT` | Não | Chave estrangeira para `pet.id` |
-| `pergunta_id` | `BIGINT` | Não | Chave estrangeira para `pergunta.id` |
-| `texto` | `VARCHAR(255)` | Sim | `NULL` vira `NÃO INFORMADO` na exibição |
+| Atributo | Obrigatório | Observação |
+|---|---|---|
+| Identificador | Sim | |
+| Pet | Sim | A quem pertence a resposta |
+| Pergunta | Sim | A qual pergunta responde |
+| Texto | Não | Ausente vira `NÃO INFORMADO` na exibição |
 
-Restrição extra: o par (`pet_id`, `pergunta_id`) é único. Um pet responde cada pergunta uma vez.
+Um pet responde cada pergunta **no máximo uma vez**.
 
-### Relacionamentos
+### Relacionamento
 
 ```
 pet 1 ───── N resposta N ───── 1 pergunta
 ```
 
-Um pet tem várias respostas. Uma pergunta é respondida por vários pets. A tabela `resposta` é a ponte.
+Um pet tem várias respostas. Uma pergunta é respondida por vários pets. A resposta é a ponte entre os dois. Nome e tipo de cada coluna: decisão sua.
 
-## 4. Models no Java
+## 7. Models no Java
 
 Os nomes abaixo são sugestão. Você pode usar inglês ou português, desde que mantenha o padrão em todo o projeto.
 
@@ -126,8 +111,8 @@ Os nomes abaixo são sugestão. Você pode usar inglês ou português, desde que
 
 | Elemento | Tipo | Campos / valores | Observação |
 |---|---|---|---|
-| `Pet` | Classe | `id`, `nomeCompleto`, `tipo`, `sexo`, `endereco`, `idade`, `peso`, `raca`, `dataCadastro` | É a entidade principal |
-| `Endereco` | Classe ou record | `numeroCasa`, `cidade`, `rua` | Agrupa as três partes do endereço |
+| `Pet` | Classe | identificador, nome completo, tipo, sexo, endereço, idade, peso, raça, data de cadastro | Entidade principal |
+| `Endereco` | Classe ou record | número da casa, cidade, rua | Agrupa as três partes do endereço |
 | `TipoPet` | Enum | `CACHORRO`, `GATO` | Guarda também o texto de exibição |
 | `SexoPet` | Enum | `MACHO`, `FEMEA` | Guarda também o texto de exibição |
 | Constante `NAO_INFORMADO` | `String` | `"NÃO INFORMADO"` | Em UM único lugar |
@@ -136,15 +121,15 @@ Os nomes abaixo são sugestão. Você pode usar inglês ou português, desde que
 
 | Campo | Tipo Java sugerido | Por quê |
 |---|---|---|
-| `id` | `Long` | Nulo antes de gravar |
-| `nomeCompleto`, `raca`, `numeroCasa` | `String` | `null` quando não informado |
-| `idade`, `peso` | `BigDecimal` | Casa com `DECIMAL`. `Double` também funciona, mas entenda a diferença |
-| `dataCadastro` | `LocalDateTime` | API moderna de datas |
-| `tipo`, `sexo` | Enums acima | Nunca `String` solta |
+| Identificador | `Long` | Nulo antes de gravar |
+| Nome completo, raça, número da casa | `String` | `null` quando não informado |
+| Idade e peso | `BigDecimal` | Número exato. `Double` também funciona, mas entenda a diferença |
+| Data de cadastro | `LocalDateTime` | API moderna de datas |
+| Tipo e sexo | Enums acima | Nunca `String` solta |
 
 ### Exceções
 
-Crie exceções próprias para as regras de negócio. Uma exceção por situação ou uma família com herança, você decide. O que importa:
+Crie exceções próprias para as regras de negócio. Uma por situação ou uma família com herança, você decide. O que importa:
 
 - Todas representam erro de **regra de negócio** (dado inválido do usuário).
 - Carregam a mensagem padrão da [tabela de mensagens](01-regras-de-negocio.md#4-mensagens-de-erro-padrão).
@@ -152,11 +137,11 @@ Crie exceções próprias para as regras de negócio. Uma exceção por situaç�
 
 Sugestão de nomes: `NomeInvalidoException`, `IdadeInvalidaException`, `PesoInvalidoException`, `PetNaoEncontradoException`.
 
-## 5. Dados de exemplo (seed)
+## 8. Dados de exemplo (seed)
 
 Use estes 10 pets no seu `seed.sql`. Todos os resultados esperados abaixo foram calculados com estes dados. Se o seu resultado for diferente, o erro está na sua consulta.
 
-| id | nome_completo | tipo | sexo | numero_casa | cidade | rua | idade_anos | peso_kg | raca |
+| id | Nome completo | Tipo | Sexo | Número da casa | Cidade | Rua | Idade (anos) | Peso (kg) | Raça |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Rex Almeida | CACHORRO | MACHO | 123 | Curitiba | Rua das Flores | 2 | 5.00 | Vira-lata |
 | 2 | Florzinha da Silva | GATO | FEMEA | 456 | Seilândia | Rua Azul | 6 | 5.00 | Siamês |
@@ -190,15 +175,15 @@ Estas são as consultas do `queries.sql` (Passo 2) e o que cada uma deve devolve
 | Tipo `GATO` e idade de pelo menos 1 | ids 2, 7, 8 |
 | Tipo `CACHORRO` e peso de pelo menos 20 | ids 3, 6, 9 |
 | Menos de 1 ano de idade | ids 4, 5 |
-| Quantidade por tipo (`GROUP BY tipo`) | CACHORRO = 6, GATO = 4 |
+| Quantidade por tipo | CACHORRO = 6, GATO = 4 |
 
-Peso médio por tipo e sexo (`GROUP BY tipo, sexo`):
+Peso médio por tipo e sexo:
 
-| tipo | sexo | peso médio |
+| Tipo | Sexo | Peso médio |
 |---|---|---|
 | CACHORRO | FEMEA | 16.25 |
 | CACHORRO | MACHO | 21.50 |
 | GATO | FEMEA | 3.10 |
 | GATO | MACHO | 6.80 |
 
-> Sua tabela de testes (Passo 6) também deve usar este seed ou parte dele. Dados fixos tornam o teste previsível.
+> Os seus testes (Passo 6) também devem usar este seed ou parte dele. Dados fixos tornam o teste previsível.

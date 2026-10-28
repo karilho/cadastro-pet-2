@@ -6,11 +6,11 @@ Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? A
 
 - Passos 1 a 6 concluídos (de preferência com testes passando)
 - Guia, Parte 2, seção **SQL**: `JOIN`, chave estrangeira e relacionamentos 1:N e N:N
-- Modelo das tabelas: [03-modelo-de-dados.md, seção 3](../03-modelo-de-dados.md#3-tabelas-do-passo-extra)
+- Modelo: [03-modelo-de-dados.md, seção 6](../03-modelo-de-dados.md#6-passo-extra-perguntas-e-respostas)
 
 ## O que entregar
 
-- Tabelas `pergunta` e `resposta` no `schema.sql`
+- Modelagem de perguntas e respostas no `schema.sql`
 - Perguntas de 1 a 7 carregadas como **originais**
 - Endpoints de perguntas
 - Respostas extras dentro do cadastro e da consulta do pet
@@ -19,8 +19,8 @@ Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? A
 
 ### Banco
 
-1. Crie as tabelas `pergunta` e `resposta` seguindo o [modelo](../03-modelo-de-dados.md#3-tabelas-do-passo-extra).
-2. O par (`pet_id`, `pergunta_id`) é único.
+1. Modele as entidades `Pergunta` e `Resposta` seguindo o [modelo](../03-modelo-de-dados.md#6-passo-extra-perguntas-e-respostas).
+2. Um pet responde cada pergunta no máximo uma vez, e o banco deve garantir isso.
 3. Carregue no seed as 7 perguntas originais do [`formulario.txt`](../../formulario.txt), marcadas como `original`.
 
 ### Regras

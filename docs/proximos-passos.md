@@ -14,7 +14,7 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 | Tema | Entrega no V2 | Seção da Parte 3 |
 |---|---|---|
-| Docker | `Dockerfile` e `docker-compose` com API e MySQL | Docker |
+| Docker | `Dockerfile` e `docker-compose` com API e PostgreSQL | Docker |
 | Swagger | Todos os endpoints documentados com OpenAPI | Swagger |
 | CI/CD | Pipeline do GitHub Actions rodando build e testes | CI/CD |
 | Cloud | Deploy na AWS e foto do pet no S3 | Cloud |
@@ -32,12 +32,12 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 - `Dockerfile` da API
 - `.dockerignore`
-- `docker-compose.yml` com a API e o MySQL
+- `docker-compose.yml` com a API e o PostgreSQL
 
 **Requisitos:**
 
 1. O `Dockerfile` gera a imagem a partir do projeto Maven.
-2. O MySQL do compose carrega o `schema.sql` e o `seed.sql` no primeiro boot.
+2. O PostgreSQL do compose carrega o `schema.sql` e o `seed.sql` no primeiro boot.
 3. A API só inicia depois que o banco está saudável (`healthcheck` e `depends_on`).
 4. Usuário, senha e URL do banco entram por **variáveis de ambiente** (arquivo `.env`, que não sobe pro Git).
 5. Os dados do banco persistem em um **volume**: `docker compose down` não apaga os pets.
@@ -79,7 +79,7 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 1. Dispara em todo `push` e em todo `pull request`.
 2. Instala o JDK, usa **cache** das dependências do Maven e roda `mvn -B verify`.
-3. Roda **sem MySQL**. É por isso que o Passo 6 usa H2.
+3. Roda **sem PostgreSQL**. É por isso que o Passo 6 usa H2.
 4. Publica o resultado dos testes como artefato do workflow.
 5. Badge de status do pipeline no topo do **seu** README.
 
@@ -160,14 +160,14 @@ Ao cadastrar um pet, publique uma mensagem em uma fila SQS. Um consumidor simple
 
 1. Cada criação, alteração e exclusão de pet grava um documento com: `petId`, `acao` (`CRIADO`, `ALTERADO` ou `EXCLUIDO`), `em` (data e hora), `antes` e `depois` (o estado do pet).
 2. Novo endpoint `GET /pets/{id}/historico`, do mais recente para o mais antigo.
-3. O **MySQL continua sendo a fonte da verdade**. O Mongo só guarda o histórico.
+3. O **PostgreSQL continua sendo a fonte da verdade**. O Mongo só guarda o histórico.
 4. Decida e **documente no seu README**: se o Mongo cair, o cadastro do pet falha ou segue? Justifique.
 
 **Pronto quando:**
 
 - [ ] Criar, alterar e excluir geram um documento cada
 - [ ] O histórico de um pet aparece em ordem
-- [ ] Você explica por que esse dado ficou no Mongo e não no MySQL
+- [ ] Você explica por que esse dado ficou no Mongo e não no PostgreSQL
 
 ## 7. Cache (Redis)
 

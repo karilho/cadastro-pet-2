@@ -7,7 +7,7 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova
 - Passos 1 a 5 concluídos
 - Regras: [01-regras-de-negocio.md](../01-regras-de-negocio.md)
 - Contrato da API: [05-contrato-da-api.md](../05-contrato-da-api.md)
-- Dados fixos para os testes: [seed](../03-modelo-de-dados.md#5-dados-de-exemplo-seed)
+- Dados fixos para os testes: [seed](../03-modelo-de-dados.md#8-dados-de-exemplo-seed)
 
 ## O que entregar
 
@@ -15,7 +15,7 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova
 - Testes do service (Mockito)
 - Testes do controller (`@WebMvcTest`)
 - Testes do repository (`@DataJpaTest` com H2 em memória)
-- `mvn test` passando em uma máquina limpa, **sem MySQL instalado**
+- `mvn test` passando em uma máquina limpa, **sem PostgreSQL instalado**
 
 ## Requisitos
 
@@ -26,7 +26,7 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova
 | Domínio e regras | JUnit 5 | Cada regra de negócio |
 | Service | JUnit 5 + Mockito | Orquestração, com o repository isolado (mock) |
 | Controller | `@WebMvcTest` + `MockMvc` | Status, corpo e formato de erro de cada endpoint |
-| Repository | `@DataJpaTest` + H2 | Consultas e filtros, sem MySQL |
+| Repository | `@DataJpaTest` + H2 | Consultas e filtros, sem PostgreSQL |
 
 ### Cobertura mínima obrigatória
 
@@ -62,9 +62,9 @@ Para a API, além disso:
 
 ### Banco nos testes
 
-1. O teste do repository usa **H2 em memória**. Nunca o MySQL real.
+1. O teste do repository usa **H2 em memória**. Nunca o PostgreSQL real.
 2. Cada teste começa com os dados que ele mesmo precisa. Nada de depender do que "já estava lá".
-3. Se algum recurso do MySQL (como a collation de busca sem acento) não existe no H2, **documente a diferença** num comentário e teste a regra no domínio.
+3. Se algum recurso do PostgreSQL que você usou (como a busca sem acento) não existe no H2, **documente a diferença** num comentário e teste a regra no domínio.
 
 ### Bug novo, teste novo
 
@@ -73,7 +73,7 @@ A partir de agora, todo bug que você corrigir **nasce com um teste que o reprod
 ## Pronto quando
 
 - [ ] `mvn test` passa
-- [ ] `mvn test` passa **sem o MySQL ligado**
+- [ ] `mvn test` passa **sem o PostgreSQL ligado**
 - [ ] Todas as linhas das tabelas de regras têm teste
 - [ ] Todo endpoint tem teste de sucesso e de erro
 - [ ] Nenhum teste depende de ordem de execução
@@ -91,7 +91,7 @@ A partir de agora, todo bug que você corrigir **nasce com um teste que o reprod
 
 - Teste que repete o código de produção (testa que `a + b` é `a + b`).
 - `assertTrue(true)` ou teste sem `assert`.
-- Teste que só passa na sua máquina porque depende do MySQL.
+- Teste que só passa na sua máquina porque depende do PostgreSQL.
 - Cobrir só o caminho feliz.
 
 ## Commit sugerido

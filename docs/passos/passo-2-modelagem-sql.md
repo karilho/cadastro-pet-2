@@ -1,12 +1,12 @@
 # Passo 2: Modelagem SQL
 
-Antes de escrever Java para o banco, desenhe o banco. Aqui você só escreve SQL e roda no MySQL.
+Antes de escrever Java para o banco, desenhe o banco. Aqui você só escreve SQL e roda no PostgreSQL. Quase nada vem pronto, de propósito.
 
 ## Antes de começar
 
-- Banco `cadastro_pet` criado e usuário `pet_app` funcionando: [02-ambiente-e-banco.md](../02-ambiente-e-banco.md)
+- Banco `cadastro_pet` e usuário da aplicação funcionando: [02-ambiente-e-banco.md](../02-ambiente-e-banco.md)
 - Guia, Parte 2, seção **SQL**: fundamentos, `WHERE`, agregações, `GROUP BY` e `INNER JOIN`
-- Contrato da tabela: [03-modelo-de-dados.md](../03-modelo-de-dados.md), seções 1 e 5
+- O que modelar: [03-modelo-de-dados.md](../03-modelo-de-dados.md), seções 1 a 3
 
 ## O que entregar
 
@@ -14,7 +14,7 @@ Três arquivos na pasta `database/`:
 
 | Arquivo | Conteúdo |
 |---|---|
-| `schema.sql` | Criação da tabela `pet`, restrições e índices |
+| `schema.sql` | A modelagem: tabelas, restrições e índices |
 | `seed.sql` | Os 10 pets de exemplo |
 | `queries.sql` | As consultas da lista abaixo |
 
@@ -22,18 +22,15 @@ Três arquivos na pasta `database/`:
 
 ### `schema.sql`
 
-1. Crie a tabela `pet` seguindo o [contrato de colunas](../03-modelo-de-dados.md#contrato-das-colunas).
-2. Chave primária com auto incremento.
-3. `NOT NULL` apenas onde o contrato diz que não aceita nulo.
-4. `CHECK` para idade (maior que 0 e até 20) e peso (de 0.5 a 60).
-5. `data_cadastro` com padrão `CURRENT_TIMESTAMP`.
-6. Pelo menos dois índices: `nome_completo` e `raca`.
-7. O script precisa rodar de novo sem quebrar (pense em `DROP TABLE IF EXISTS` ou `CREATE TABLE IF NOT EXISTS`).
+1. Modele a entidade Pet da [seção 1 do modelo](../03-modelo-de-dados.md#1-entidade-pet).
+2. Escolha chave, tipos e restrições respondendo as perguntas da [seção 3 do modelo](../03-modelo-de-dados.md#3-decisões-que-são-suas).
+3. O banco deve **recusar** dado que viole as regras que ele consegue garantir.
+4. Crie índices onde fizerem sentido e saiba justificar cada um.
+5. O script precisa poder rodar de novo, sem quebrar.
 
 ### `seed.sql`
 
-1. Insira EXATAMENTE os 10 pets da [tabela de dados de exemplo](../03-modelo-de-dados.md#5-dados-de-exemplo-seed).
-2. Mantenha os `NULL` onde a tabela mostra `NULL`.
+1. Insira os 10 pets da [tabela de dados de exemplo](../03-modelo-de-dados.md#8-dados-de-exemplo-seed), com os `NULL` nos lugares certos.
 
 ### `queries.sql`
 
@@ -43,49 +40,38 @@ Uma consulta para cada linha da [tabela de resultados esperados](../03-modelo-de
 2. Buscar por **parte** do nome, ignorando caixa e acento
 3. Buscar por raça
 4. Buscar por faixa de idade
-5. Quantidade de pets por tipo (`GROUP BY`)
-6. Peso médio por tipo e sexo (`GROUP BY` com dois campos)
+5. Quantidade de pets por tipo
+6. Peso médio por tipo e sexo
 
 ### Regra nível 2 (não obrigatória)
 
-1. Crie a tabela `endereco` ([modelo, seção 2](../03-modelo-de-dados.md#2-tabela-endereco-regra-nível-2)) e ligue ao pet por chave estrangeira.
-2. Reescreva a listagem com `INNER JOIN`.
-3. Insira um pet sem endereço e reescreva com `LEFT JOIN`. Descreva, num comentário, a diferença que você viu no resultado.
+1. Modele o [endereço como entidade própria](../03-modelo-de-dados.md#5-regra-nível-2-endereço-separado) ligada ao pet.
+2. Reescreva a listagem usando `INNER JOIN` e depois `LEFT JOIN`.
+3. Insira um pet sem endereço e descreva num comentário a diferença que você viu entre os dois.
 
 ## Pronto quando
 
-- [ ] `schema.sql`, `seed.sql` e `queries.sql` rodam do zero no MySQL sem erro
+- [ ] `schema.sql`, `seed.sql` e `queries.sql` rodam do zero no PostgreSQL sem erro
 - [ ] Cada consulta devolve exatamente o resultado esperado da tabela
-- [ ] A busca por `siames` acha `Siamês` sem nenhum tratamento extra no SQL
-- [ ] Inserir um pet com peso `61` é recusado pelo banco
-- [ ] Inserir um pet com idade `0` é recusado pelo banco
-- [ ] Você explica a diferença entre `LIKE 'Flor%'` e `LIKE '%Flor%'` usando `EXPLAIN`
-
-## Como testar na mão
-
-```sql
--- deve falhar (peso fora do limite)
-INSERT INTO pet (tipo, sexo, cidade, rua, peso_kg) VALUES ('GATO', 'MACHO', 'Curitiba', 'Rua X', 61);
-
--- deve funcionar (idade e peso são opcionais)
-INSERT INTO pet (tipo, sexo, cidade, rua) VALUES ('GATO', 'MACHO', 'Curitiba', 'Rua X');
-```
-
-Apague o pet de teste depois (`DELETE`), para o seed continuar com 10.
+- [ ] A busca por `siames` acha `Siamês`
+- [ ] O banco recusa um pet com peso `61`
+- [ ] O banco recusa um pet com idade `0`
+- [ ] O banco aceita um pet sem raça, sem peso e sem idade
+- [ ] Você explica a diferença entre `LIKE 'Flor%'` e `LIKE '%Flor%'` olhando o plano de execução (`EXPLAIN`)
 
 ## Dicas
 
-- Rode o `schema.sql` pelo terminal: `mysql -u pet_app -p cadastro_pet < database/schema.sql`.
-- A collation do banco já resolve caixa e acento. Faça a consulta sem `LOWER()` e sem `REPLACE()` primeiro. Se funcionar, você entendeu a collation.
-- `GROUP BY` com média: confira o resultado na mão com 2 ou 3 linhas antes de confiar.
+- Faça a busca sem acento e sem caixa. Se o seu banco não resolve isso sozinho, pesquise como o PostgreSQL trata esse caso.
+- Confira a média na mão com 2 ou 3 linhas antes de confiar na consulta.
 - `NULL` não é igual a nada, nem a outro `NULL`. Teste `= NULL` e depois `IS NULL`.
+- Apagou o pet de teste? Confira que o seed continua com 10.
 
 ## Erros comuns
 
-- Usar `FLOAT` para peso.
-- Colocar `NOT NULL` em tudo e depois não conseguir cadastrar pet sem raça.
-- `LIKE '%flor%'` com `LOWER()` em coluna indexada sem entender por que o índice não ajuda.
-- Esquecer de rodar o `seed.sql` depois de recriar a tabela.
+- Usar ponto flutuante para peso e idade.
+- Marcar tudo como obrigatório e depois não conseguir cadastrar pet sem raça.
+- Esquecer de rodar o `seed.sql` depois de recriar as tabelas.
+- Criar índice em tudo "por garantia".
 
 ## Commit sugerido
 

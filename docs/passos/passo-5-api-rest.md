@@ -21,9 +21,9 @@ O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outr
 
 ### Projeto e persistência
 
-1. Transforme o projeto em Spring Boot 3 (starters `web`, `data-jpa`, `validation` e o driver do MySQL).
+1. Transforme o projeto em Spring Boot 3 (starters `web`, `data-jpa`, `validation` e o driver do PostgreSQL).
 2. Configure o banco pelas **variáveis de ambiente** (`spring.datasource.url=${DB_URL}` e as outras). Nada de senha no `application.properties`.
-3. Troque o repositório JDBC por **Spring Data JPA**. Mapeie `Pet` (e `Endereco`) para a tabela `pet` do [contrato de colunas](../03-modelo-de-dados.md#contrato-das-colunas).
+3. Troque o repositório JDBC por **Spring Data JPA**. Mapeie `Pet` (e `Endereco`) para as tabelas que **você** modelou no Passo 2.
 4. Deixe o JPA **não** recriar as tabelas sozinho (`ddl-auto=validate` ou `none`). O `schema.sql` do Passo 2 continua sendo a fonte da verdade.
 5. **Guarde o repositório JDBC do Passo 3** no projeto ou no histórico do Git. Compare os dois: o que o Spring gera por baixo do `save()`?
 
@@ -66,7 +66,7 @@ O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outr
 ## Dicas
 
 - Deixe o Postman salvo com uma coleção de uma requisição por endpoint e por erro. Ela vira sua documentação viva.
-- Busca sem acento e sem caixa: o MySQL com a collation do banco já ajuda. Descubra como o JPA monta a query, ou escreva a sua com `@Query`. Compare.
+- Busca sem acento e sem caixa: você já resolveu isso no SQL do Passo 2. Descubra como levar a mesma solução para o JPA (consulta própria com `@Query`, por exemplo) e compare com o que o Spring gera sozinho.
 - Para buscas com vários filtros opcionais, procure por **Specifications** ou por consultas derivadas. Escolha uma e justifique no seu README.
 - Um erro de JSON malformado e um erro de validação são erros **diferentes** no Spring. Os dois precisam cair no seu `@RestControllerAdvice`.
 

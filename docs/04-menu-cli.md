@@ -169,7 +169,7 @@ Banco fora do ar, senha errada, tabela inexistente: o programa mostra uma mensag
 
 - [ ] As perguntas vêm do `formulario.txt`
 - [ ] O menu reage a todas as entradas inválidas da tabela da seção 2
-- [ ] Cadastro, alteração, exclusão, listagem e busca funcionam contra o MySQL
+- [ ] Cadastro, alteração, exclusão, listagem e busca funcionam contra o PostgreSQL
 - [ ] A busca acha `siames` para `Siamês` e `FLOR` para `Florzinha da Silva`
 - [ ] Tipo e sexo nunca podem ser alterados
 - [ ] Nenhuma exceção aparece para o usuário

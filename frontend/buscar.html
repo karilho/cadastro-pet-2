@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listar pets por critério | Abrigo de Pets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="voltar" href="index.html">&larr; Menu</a>
+    <h1>5 - Listar pets por algum critério</h1>
+  </header>
+
+  <main class="conteudo">
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+    <div id="rotas" class="rotas"></div>
+
+    <section class="cartao" aria-label="Busca">
+      <form id="form-busca" novalidate></form>
+    </section>
+
+    <section class="cartao" aria-label="Resultado da busca">
+      <div id="resultados"><p class="vazio">Faça uma busca para ver os resultados.</p></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/pagina-buscar.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastrar um novo pet | Abrigo de Pets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="voltar" href="index.html">&larr; Menu</a>
+    <h1>1 - Cadastrar um novo pet</h1>
+  </header>
+
+  <main class="conteudo">
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+    <div id="rotas" class="rotas"></div>
+
+    <section class="cartao" aria-label="Formulário de cadastro">
+      <form id="form-pet" novalidate></form>
+      <div class="acoes acoes-fim">
+        <a class="botao" href="index.html">Voltar ao menu</a>
+        <button type="submit" form="form-pet" class="botao botao-principal">Salvar</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/pagina-cadastrar.js"></script>
+</body>
+</html>

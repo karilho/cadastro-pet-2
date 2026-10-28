@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alterar um pet | Abrigo de Pets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="voltar" href="index.html">&larr; Menu</a>
+    <h1>2 - Alterar os dados de um pet cadastrado</h1>
+  </header>
+
+  <main class="conteudo">
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+    <div id="rotas" class="rotas"></div>
+
+    <section class="cartao" aria-label="Busca">
+      <form id="form-busca" novalidate></form>
+    </section>
+
+    <section class="cartao" aria-label="Resultado da busca">
+      <div id="resultados"><p class="vazio">Busque o pet que você quer alterar.</p></div>
+    </section>
+
+    <section id="edicao" class="cartao" aria-label="Alterar pet" hidden>
+      <h2>Alterar pet</h2>
+      <p class="ajuda">Tipo e sexo não podem ser alterados.</p>
+      <form id="form-pet" novalidate></form>
+      <div class="acoes acoes-fim">
+        <button type="button" id="botao-cancelar" class="botao">Cancelar</button>
+        <button type="submit" form="form-pet" class="botao botao-principal">Salvar alterações</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/pagina-alterar.js"></script>
+</body>
+</html>

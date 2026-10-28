@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deletar um pet | Abrigo de Pets</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <a class="voltar" href="index.html">&larr; Menu</a>
+    <h1>3 - Deletar um pet cadastrado</h1>
+  </header>
+
+  <main class="conteudo">
+    <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+    <div id="rotas" class="rotas"></div>
+
+    <section class="cartao" aria-label="Busca">
+      <form id="form-busca" novalidate></form>
+    </section>
+
+    <section class="cartao" aria-label="Resultado da busca">
+      <div id="resultados"><p class="vazio">Busque o pet que você quer deletar.</p></div>
+    </section>
+  </main>
+
+  <dialog id="confirmacao" aria-labelledby="pergunta">
+    <p id="pergunta" class="pergunta"></p>
+    <div class="acoes acoes-fim">
+      <button type="button" id="botao-nao" class="botao">NÃO</button>
+      <button type="button" id="botao-sim" class="botao botao-perigo">SIM</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/pagina-deletar.js"></script>
+</body>
+</html>

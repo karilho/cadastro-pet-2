@@ -55,6 +55,33 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 
 **Requisitos de ambiente:** Java 17 ou superior, Maven, PostgreSQL 15 ou superior, Git, Python 3 ou Node.js (só para servir o front) e uma IDE (IntelliJ, por exemplo).
 
+## Endpoints que o seu backend precisa ter
+
+O front tem o mesmo menu do V1. Cada opção chama estes endpoints:
+
+| Opção do menu | Endpoint(s) chamado(s) |
+|---|---|
+| 1 - Cadastrar um novo pet | `POST /pets` |
+| 2 - Alterar os dados de um pet | `GET /pets?...` (buscar o pet) e `PUT /pets/{id}` |
+| 3 - Deletar um pet | `GET /pets?...` (buscar o pet) e `DELETE /pets/{id}` |
+| 4 - Listar todos os pets | `GET /pets` |
+| 5 - Listar pets por algum critério | `GET /pets?...` |
+| 6 - Sair | (nenhum) |
+
+E o que cada endpoint faz:
+
+| Endpoint | O que faz | Sucesso |
+|---|---|---|
+| `POST /pets` | Cadastra um pet | `201 Created` |
+| `GET /pets` | Lista todos, ou busca com filtros (`tipo`, `nome`, `sexo`, `idadeMin`, `idadeMax`, `pesoMin`, `pesoMax`, `raca`, `endereco`) | `200 OK` |
+| `GET /pets/{id}` | Busca um pet pelo id | `200 OK` |
+| `PUT /pets/{id}` | Altera os dados de um pet (tipo e sexo não mudam) | `200 OK` |
+| `DELETE /pets/{id}` | Exclui um pet | `204 No Content` |
+
+Formato do JSON, filtros, status de erro e CORS: [04. Contrato da API](docs/04-contrato-da-api.md).
+
+Se o seu backend não responder, o front **mostra um aviso de erro** na tela. Ele não guarda nenhum pet por conta própria: tudo que aparece vem da sua API.
+
 ## Mapa do desafio
 
 ### Documentos de referência (leia antes de começar)

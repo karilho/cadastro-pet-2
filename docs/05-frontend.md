@@ -8,7 +8,7 @@ Você **não precisa** alterar o front. Pode ler o código para entender como el
 
 - Um site de várias páginas, em HTML, CSS e JavaScript puros. Sem framework, sem `npm install`, sem build.
 - O menu inicial tem as mesmas 6 opções do V1. Cada opção abre uma página.
-- Cada página mostra, no topo, **quais rotas do backend ela chama**.
+- Ele **não guarda nenhum dado**. Tudo que aparece vem da sua API, e se ela não responder a tela mostra um erro.
 - Fala com a sua API pelo [contrato](04-contrato-da-api.md). Se a sua API seguir o contrato, o front funciona.
 
 ## 2. Como rodar

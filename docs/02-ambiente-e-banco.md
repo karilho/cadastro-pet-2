@@ -12,7 +12,8 @@ Antes do Passo 1, deixe o ambiente pronto. Aqui você descobre **o que** precisa
 | Cliente de banco (DBeaver, pgAdmin ou o `psql`) | Qualquer | Rodar SQL e ver os dados |
 | IntelliJ IDEA (Community) | Qualquer recente | IDE |
 | Git | Qualquer recente | Versionamento |
-| Cliente HTTP (Postman, Insomnia ou `curl`) | Qualquer | Testar a API no Passo 5 |
+| Cliente HTTP (Postman, Insomnia ou `curl`) | Qualquer | Testar a API no Passo 4 |
+| Python 3 ou Node.js | Qualquer recente | Servir o front pronto (`frontend/`), ver [05-frontend.md](05-frontend.md) |
 
 Confira no terminal:
 
@@ -84,7 +85,7 @@ Variáveis usadas:
 - No terminal: `export DB_USER=...` (macOS/Linux) antes de rodar.
 - No IntelliJ: *Run > Edit Configurations > Environment variables*.
 - No código: `System.getenv("DB_USER")`.
-- No Spring Boot (Passo 5): `spring.datasource.url=${DB_URL}` no `application.properties`.
+- No Spring Boot (Passo 4): `spring.datasource.url=${DB_URL}` no `application.properties`.
 
 O `.env` não é lido sozinho pelo Java. Quem carrega é você (terminal ou IntelliJ).
 
@@ -98,7 +99,7 @@ cadastro-pet-2/
 │   ├── schema.sql          (Passo 2)
 │   ├── seed.sql            (Passo 2)
 │   └── queries.sql         (Passo 2)
-├── formulario.txt          (já vem pronto neste repositório)
+├── frontend/               (já vem pronto neste repositório)
 ├── pom.xml
 ├── .env                    (seu, não sobe pro Git)
 ├── .env.example
@@ -117,9 +118,8 @@ Dentro de `src/main/java`, uma organização possível para o projeto crescer se
 | `exception` | Exceções de regra de negócio |
 | `repository` | Acesso ao banco |
 | `service` | Regras de negócio que não cabem no model |
-| `cli` | Menu de terminal (Passo 4) |
-| `controller` | Endpoints (Passo 5) |
-| `dto` | Objetos de entrada e saída da API (Passo 5) |
+| `controller` | Endpoints (Passo 4) |
+| `dto` | Objetos de entrada e saída da API (Passo 4) |
 
 ## 5. Problemas comuns de conexão
 

@@ -10,15 +10,15 @@ Um pet é um animal encontrado e cadastrado por um abrigo para adoção.
 
 | Campo | Tipo de negócio | Obrigatório | Observação |
 |---|---|---|---|
-| Nome completo | Texto (nome e sobrenome) | Não | Se vazio vira `NÃO INFORMADO` |
+| Nome completo | Texto (nome e sobrenome) | Não | Se vazio, fica ausente |
 | Tipo | `Cachorro` ou `Gato` | Sim | ENUM |
 | Sexo | `Macho` ou `Femea` | Sim | ENUM (sem acento, como no V1) |
-| Número da casa | Texto numérico | Não | Se vazio vira `NÃO INFORMADO` |
+| Número da casa | Texto numérico | Não | Se vazio, fica ausente |
 | Cidade | Texto | Sim | Onde o pet foi encontrado |
 | Rua | Texto | Sim | Onde o pet foi encontrado |
-| Idade | Número decimal em anos | Não | Se vazio vira `NÃO INFORMADO` |
-| Peso | Número decimal em kg | Não | Se vazio vira `NÃO INFORMADO` |
-| Raça | Texto | Não | Se vazio vira `NÃO INFORMADO` |
+| Idade | Número decimal em anos | Não | Se vazio, fica ausente |
+| Peso | Número decimal em kg | Não | Se vazio, fica ausente |
+| Raça | Texto | Não | Se vazio, fica ausente |
 | Data de cadastro | Data e hora | Sim | Gerada pelo sistema, o usuário nunca informa |
 
 ## 2. Regras por campo
@@ -30,7 +30,7 @@ Um pet é um animal encontrado e cadastrado por um abrigo para adoção.
 | `Florzinha da Silva` | Válido |
 | `Rex Almeida` | Válido |
 | `Cármen Lúcia` | Válido (acentos são letras) |
-| (vazio ou só espaços) | Válido, vira `NÃO INFORMADO` |
+| (vazio ou só espaços) | Válido, fica ausente (`null`) |
 | `Rex` | **Erro**: falta sobrenome |
 | `Rex 2` | **Erro**: contém número |
 | `Rex@Silva` | **Erro**: contém caractere especial |
@@ -60,7 +60,7 @@ O endereço tem três partes. Elas são perguntadas e guardadas separadas.
 
 | Parte | Obrigatório | Regra |
 |---|---|---|
-| Número da casa | Não | Somente dígitos (`123`). Vazio vira `NÃO INFORMADO` |
+| Número da casa | Não | Somente dígitos (`123`). Vazio fica ausente |
 | Cidade | Sim | Texto livre, não pode ser vazio |
 | Rua | Sim | Texto livre, não pode ser vazio |
 
@@ -75,15 +75,14 @@ A idade é sempre em **anos**, como número decimal.
 | `3.5` | Válido, 3.5 anos |
 | `0,5` | Válido, 0.5 ano (6 meses) |
 | `20` | Válido (20 é o limite) |
-| (vazio) | Válido, vira `NÃO INFORMADO` |
+| (vazio) | Válido, fica ausente (`null`) |
 | `20,1` | **Erro**: maior que 20 |
 | `0` ou `-2` | **Erro**: precisa ser maior que 0 |
 | `três` ou `3a` | **Erro**: não é número |
 
-- Aceita vírgula OU ponto como separador decimal, nunca os dois.
+- No **formulário**, aceita vírgula OU ponto como separador decimal, nunca os dois. O front converte a vírgula em ponto antes de enviar. Na **API**, só chega número JSON com ponto.
 - Maior que 0 e no máximo 20.
 - Pet com menos de 1 ano é informado como `0,x`. Exemplo: 6 meses é `0,5`.
-- O sistema guarda com ponto (`0.5`), nunca com vírgula.
 
 ### 2.6 Peso
 
@@ -95,7 +94,7 @@ O peso é sempre em **kg**, como número decimal.
 | `5,2` ou `5.2` | Válido |
 | `0,5` | Válido (0.5 é o limite mínimo) |
 | `60` | Válido (60 é o limite máximo) |
-| (vazio) | Válido, vira `NÃO INFORMADO` |
+| (vazio) | Válido, fica ausente (`null`) |
 | `0,4` | **Erro**: menor que 0.5kg |
 | `60,1` | **Erro**: maior que 60kg |
 | `pesado` | **Erro**: não é número |
@@ -107,7 +106,7 @@ O peso é sempre em **kg**, como número decimal.
 | `Vira-lata` | Válido (hífen é aceito) |
 | `Border Collie` | Válido |
 | `Siamês` | Válido |
-| (vazio) | Válido, vira `NÃO INFORMADO` |
+| (vazio) | Válido, fica ausente (`null`) |
 | `Poodle 2` | **Erro**: contém número |
 | `Poodle!` | **Erro**: contém caractere especial |
 
@@ -115,10 +114,11 @@ O peso é sempre em **kg**, como número decimal.
 
 ## 3. `NÃO INFORMADO`
 
-- Vale para: **nome, número da casa, idade, peso e raça**.
-- Deve ser uma **constante em um único lugar** do código. Proibido digitar a string solta em vários arquivos.
-- No **banco**, campo não informado é guardado como `NULL`. A constante é usada só para EXIBIR (terminal e mensagens).
-- Na **API**, campo não informado volta como `null` no JSON.
+- Vale para os cinco campos opcionais: **nome, número da casa, idade, peso e raça**.
+- No **Java**, campo não informado é `null`.
+- No **banco**, é `NULL`.
+- Na **API**, volta como `null` no JSON.
+- O texto `NÃO INFORMADO` só existe no **front**: quando ele recebe `null`, mostra `NÃO INFORMADO` na tela. A constante mora em um único lugar do front (`frontend/config.js`).
 
 ## 4. Mensagens de erro padrão
 
@@ -146,63 +146,51 @@ Use estas mensagens exatas. Assim os seus testes e os de outras pessoas são com
 | Critério | Como busca |
 |---|---|
 | Nome ou sobrenome | Por **parte** do texto (`FLOR` encontra `Florzinha da Silva`) |
+| Tipo | Valor exato (`Cachorro` ou `Gato`) |
 | Sexo | Valor exato (`Macho` ou `Femea`) |
-| Idade | Valor exato |
-| Peso | Valor exato |
+| Idade | Faixa (mínima e máxima) |
+| Peso | Faixa (mínimo e máximo) |
 | Raça | Por **parte** do texto |
-| Endereço | Por **parte** da cidade ou da rua |
+| Cidade | Por **parte** do texto |
 
 ### 5.2 Regras da busca
 
 1. A busca ignora maiúsculas e minúsculas e também **acentos** (`siames` encontra `Siamês`).
-2. No terminal, o usuário SEMPRE escolhe o tipo do animal (Cachorro ou Gato) PRIMEIRO.
-3. O usuário pode combinar de 1 a 2 critérios além do tipo. Exemplo: nome e idade, ou idade e peso.
-4. Quando mais de um critério é usado, o pet precisa atender a TODOS (E, nunca OU).
-5. O resultado é SEMPRE uma lista numerada, mesmo com um só resultado.
-6. Busca sem resultado mostra uma mensagem amigável (`Nenhum pet encontrado.`), não é erro.
+2. Os critérios podem ser combinados. Quando mais de um é usado, o pet precisa atender a TODOS (E, nunca OU).
+3. O resultado é sempre uma lista. Sem resultado, a lista vem vazia: **não é erro**.
+4. Sem nenhum critério, a busca devolve todos os pets.
 
-### 5.3 Formato de exibição
+### 5.3 Como o front mostra o resultado
 
-Cada pet aparece em uma linha:
+Cada pet aparece com: nome, tipo, sexo, endereço (`rua, número`, cidade), idade, peso e raça.
 
-```
-1. Rex Almeida - Cachorro - Macho - Rua das Flores, 123 - Curitiba - 2 anos - 5kg - Vira-lata
-2. Florzinha da Silva - Gato - Femea - Rua Azul, 456 - Seilândia - 6 anos - 5kg - Siamês
-```
-
-Regras de formatação:
-
-- Ordem: nome, tipo, sexo, `rua, número`, cidade, idade, peso, raça.
 - Idade: `<valor> anos`. Peso: `<valor>kg`. Sem zeros à direita (`5kg`, não `5.00kg`; `32.5kg`, não `32.50kg`).
-- Campo `NULL` aparece como `NÃO INFORMADO`.
-- Exemplo com campos faltando: `Bob Costa - Cachorro - Macho - Rua do Sol, NÃO INFORMADO - Pinhais - 0.8 anos - 3.5kg - Poodle`.
+- Campo ausente aparece como `NÃO INFORMADO`.
+- Exemplo: `Bob Costa - Cachorro - Macho - Rua do Sol, NÃO INFORMADO - Pinhais - 0.8 anos - 3.5kg - Poodle`.
 
 ### 5.4 Regra nível 2 (não obrigatória)
 
-1. Buscar por data de cadastro (mês e ano), combinável com 1 ou 2 critérios.
-2. Imprimir o termo pesquisado em **negrito** quando ele aparece no resultado (no terminal, use o código ANSI `\u001B[1m` e `\u001B[0m`).
+Permita filtrar por **data de cadastro** (mês e ano), combinável com os outros critérios. O contrato dos parâmetros está em [04-contrato-da-api.md](04-contrato-da-api.md#22-get-pets-listar-e-buscar).
 
 ## 6. Alteração de pet
 
-1. O usuário busca (regras da seção 5), escolhe o pet da lista pelo número e altera.
-2. Pode alterar TODOS os campos, EXCETO **tipo** e **sexo**.
-3. As regras de validação da seção 2 valem na alteração. Valor inválido não grava nada.
-4. Na alteração, campo deixado em branco **mantém o valor atual** (no terminal).
+1. Pode alterar TODOS os campos, EXCETO **tipo** e **sexo**.
+2. As regras de validação da seção 2 valem na alteração. Valor inválido não grava nada.
+3. A alteração substitui os dados editáveis do pet. O front já abre o formulário preenchido com os valores atuais.
 
 ## 7. Exclusão de pet
 
-1. O usuário busca, escolhe o pet da lista pelo número.
-2. Precisa confirmar com `SIM` ou `NÃO` (aceita qualquer caixa).
-3. Só um pet por vez.
-4. Só `SIM` exclui, e então aparece uma mensagem de sucesso. `NÃO` cancela sem apagar.
+1. Excluir remove o pet do banco, um por vez.
+2. A confirmação (`Deseja realmente excluir?`) é responsabilidade do **front**. A API apenas exclui.
+3. Pet inexistente: `Pet não encontrado.`
 
-## 8. Resumo para a API (Passo 5)
+## 8. Resumo para a API (Passo 4)
 
 As mesmas regras viram:
 
 - **Bean Validation** nos DTOs de entrada.
 - Validação no service para o que a anotação não cobre.
-- Resposta de erro `400` com as mensagens da seção 4. Contrato completo em [05-contrato-da-api.md](05-contrato-da-api.md).
+- Resposta de erro `400` com as mensagens da seção 4. Contrato completo em [04-contrato-da-api.md](04-contrato-da-api.md).
 
 ## 9. Decisões do V2 onde o V1 era ambíguo
 
@@ -212,5 +200,6 @@ As mesmas regras viram:
 | O V1 dizia "somente letras A a Z", mas a busca ignora acentos e há raças como `Siamês` | Acentos contam como letras |
 | O V1 listava `Vira-lata` como raça de exemplo | Hífen é aceito na raça (e só nela) |
 | O V1 dizia "idade em meses vira 0.x anos" | A idade é sempre em anos. Menos de 1 ano é digitado como `0,x` |
-| O V1 guardava `NÃO INFORMADO` como texto no arquivo | No banco é `NULL`. A constante só aparece na exibição |
+| O V1 guardava `NÃO INFORMADO` como texto no arquivo | No banco é `NULL`. O texto só aparece na tela do front |
+| O V1 era um programa de terminal | O V2 tem um front HTML pronto (`frontend/`). O desafio é o backend |
 | O V1 não definia o limite exato de idade e peso | Limites inclusivos: idade de mais de 0 até 20, peso de 0.5 a 60 |

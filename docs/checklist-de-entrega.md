@@ -9,7 +9,7 @@ Antes de dizer "terminei", passe por esta lista. Ela vale para o desafio inteiro
 - [ ] `.env` **não** está no repositório. `.env.example` está
 - [ ] Nenhuma senha, chave ou URL de banco no código, nem em commits antigos
 - [ ] `.gitignore` cobre `target/`, `.idea/` e arquivos de segredo
-- [ ] Nenhum arquivo `.txt` de pet, nenhum `System.out.println` de depuração esquecido
+- [ ] Nenhum `System.out.println` de depuração esquecido
 
 ## Commits
 
@@ -34,7 +34,7 @@ O README do **seu** projeto precisa ter:
 
 - [ ] Todas as linhas das tabelas de [01-regras-de-negocio.md](01-regras-de-negocio.md) funcionam
 - [ ] As mensagens de erro são as da tabela padrão
-- [ ] `NÃO INFORMADO` existe em um único lugar
+- [ ] Campo opcional vazio é `null` no Java, `NULL` no banco e `null` no JSON
 - [ ] Tipo e sexo nunca são alterados
 
 ## Banco
@@ -45,8 +45,10 @@ O README do **seu** projeto precisa ter:
 
 ## API
 
-- [ ] Todos os endpoints seguem o [contrato](05-contrato-da-api.md)
+- [ ] Todos os endpoints seguem o [contrato](04-contrato-da-api.md)
 - [ ] Todo erro usa o formato padrão
+- [ ] O front pronto funciona com a sua API (cadastrar, listar, buscar, alterar, excluir)
+- [ ] CORS configurado só para a origem do front, não para qualquer origem
 - [ ] `500` nunca vaza detalhe interno
 
 ## Testes

@@ -30,7 +30,7 @@ Pense, antes de escrever o `schema.sql`:
 - Um dado inválido que escapa do Java (um `INSERT` direto, por exemplo) deveria ser recusado pelo banco?
 - O que acontece com os campos opcionais? O que o banco guarda quando o usuário não informa?
 
-> Regra do V2: o que não foi informado é guardado como **ausência de valor** (`NULL`). O texto `NÃO INFORMADO` só existe na exibição.
+> Regra do V2: o que não foi informado é guardado como **ausência de valor** (`NULL`). O texto `NÃO INFORMADO` só existe na tela do front.
 
 ## 3. Decisões que são suas
 
@@ -49,9 +49,9 @@ Estas decisões não estão prontas. Tome, e esteja pronto para explicar o porqu
 
 ## 4. Valores dos ENUMs
 
-Defina onde a conversão acontece e escreva isso uma vez só.
+O backend guarda e devolve o valor em maiúsculas. Quem converte para o texto de exibição é o front (`frontend/config.js`).
 
-| Armazenado e usado na API | Exibição no terminal |
+| Armazenado e usado na API | Exibição no front |
 |---|---|
 | `CACHORRO` | `Cachorro` |
 | `GATO` | `Gato` |
@@ -91,7 +91,7 @@ Só para quem fizer o formulário dinâmico.
 | Identificador | Sim | |
 | Pet | Sim | A quem pertence a resposta |
 | Pergunta | Sim | A qual pergunta responde |
-| Texto | Não | Ausente vira `NÃO INFORMADO` na exibição |
+| Texto | Não | Ausente é exibido como `NÃO INFORMADO` |
 
 Um pet responde cada pergunta **no máximo uma vez**.
 
@@ -113,9 +113,8 @@ Os nomes abaixo são sugestão. Você pode usar inglês ou português, desde que
 |---|---|---|---|
 | `Pet` | Classe | identificador, nome completo, tipo, sexo, endereço, idade, peso, raça, data de cadastro | Entidade principal |
 | `Endereco` | Classe ou record | número da casa, cidade, rua | Agrupa as três partes do endereço |
-| `TipoPet` | Enum | `CACHORRO`, `GATO` | Guarda também o texto de exibição |
-| `SexoPet` | Enum | `MACHO`, `FEMEA` | Guarda também o texto de exibição |
-| Constante `NAO_INFORMADO` | `String` | `"NÃO INFORMADO"` | Em UM único lugar |
+| `TipoPet` | Enum | `CACHORRO`, `GATO` | Só os valores. A exibição é do front |
+| `SexoPet` | Enum | `MACHO`, `FEMEA` | Só os valores. A exibição é do front |
 
 ### Tipos Java dos campos
 
@@ -186,4 +185,4 @@ Peso médio por tipo e sexo:
 | GATO | FEMEA | 3.10 |
 | GATO | MACHO | 6.80 |
 
-> Os seus testes (Passo 6) também devem usar este seed ou parte dele. Dados fixos tornam o teste previsível.
+> Os seus testes (Passo 5) também devem usar este seed ou parte dele. Dados fixos tornam o teste previsível.

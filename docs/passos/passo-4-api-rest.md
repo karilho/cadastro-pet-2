@@ -1,12 +1,13 @@
-# Passo 5: API REST com Spring Boot
+# Passo 4: API REST com Spring Boot
 
-O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outro serviço) usa o seu sistema.
+Este é o coração do desafio. Você constrói o **backend** e o front pronto (`frontend/`) passa a funcionar com ele. Qualquer cliente HTTP (Postman, o front, outro serviço) usa o seu sistema.
 
 ## Antes de começar
 
-- Passos 1 a 4 concluídos
+- Passos 1 a 3 concluídos
 - Guia, Parte 2, seção **Web em Java: criando API's REST com Spring Boot**: Spring, HTTP, MVC e frameworks web
-- Contrato dos endpoints, formatos e erros: [05-contrato-da-api.md](../05-contrato-da-api.md)
+- Contrato dos endpoints, formatos e erros: [04-contrato-da-api.md](../04-contrato-da-api.md)
+- O front que vai consumir a API: [05-frontend.md](../05-frontend.md)
 - Regras: [01-regras-de-negocio.md](../01-regras-de-negocio.md)
 
 ## O que entregar
@@ -16,6 +17,7 @@ O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outr
 - Camadas separadas: controller, service e repository
 - Validação com Bean Validation
 - Tratamento de erros centralizado
+- CORS configurado para o front
 
 ## Requisitos
 
@@ -36,8 +38,8 @@ O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outr
 
 ### Endpoints
 
-10. Implemente os cinco endpoints exatamente como em [05-contrato-da-api.md](../05-contrato-da-api.md#2-endpoints): rotas, status de sucesso e headers (`Location` no `POST`).
-11. A busca com filtros (`GET /pets?...`) devolve os ids esperados da [tabela de exemplos](../05-contrato-da-api.md#22-get-pets-listar-e-buscar).
+10. Implemente os cinco endpoints exatamente como em [04-contrato-da-api.md](../04-contrato-da-api.md#2-endpoints): rotas, status de sucesso e headers (`Location` no `POST`).
+11. A busca com filtros (`GET /pets?...`) devolve os ids esperados da [tabela de exemplos](../04-contrato-da-api.md#22-get-pets-listar-e-buscar).
 12. `PUT` nunca altera `tipo`, `sexo`, `id` nem `dataCadastro`.
 
 ### Validação
@@ -48,15 +50,23 @@ O terminal sai de cena. Agora qualquer cliente HTTP (Postman, um front-end, outr
 
 ### Tratamento de erros
 
-16. Crie **um** `@RestControllerAdvice` que trata todos os erros e devolve o [formato padrão](../05-contrato-da-api.md#3-formato-de-erro).
+16. Crie **um** `@RestControllerAdvice` que trata todos os erros e devolve o [formato padrão](../04-contrato-da-api.md#3-formato-de-erro).
 17. Use o status certo para cada caso (tabela de status do contrato).
 18. Erro de validação lista **todos** os campos inválidos de uma vez.
 19. `500` devolve mensagem genérica, nunca stack trace, e registra o detalhe no log.
 
+### Integração com o front
+
+20. Configure o **CORS** para a origem `http://localhost:5500` ([contrato, seção 4](../04-contrato-da-api.md#4-cors-o-front-não-é-a-mesma-origem-da-api)).
+21. Suba o front (instruções em [05-frontend.md](../05-frontend.md)) e use-o para testar tudo o que você construiu.
+22. Se o front mostrar um erro que o Postman não mostra, o problema está na integração (provavelmente CORS ou formato de resposta). Descubra pelo console do navegador.
+
 ## Pronto quando
 
 - [ ] A aplicação sobe só com as variáveis de ambiente configuradas
-- [ ] Todos os checks de [05-contrato-da-api.md, seção 4](../05-contrato-da-api.md#4-pronto-quando)
+- [ ] O front pronto cadastra, lista, busca, altera e exclui pets sem erro
+- [ ] Os erros de validação da API aparecem embaixo de cada campo do formulário do front
+- [ ] Todos os checks de [04-contrato-da-api.md, seção 4](../04-contrato-da-api.md#5-pronto-quando)
 - [ ] Dá para fazer `POST`, `GET`, `PUT` e `DELETE` pelo Postman ou `curl`
 - [ ] Um `POST` com peso `61`, sem cidade e com tipo `Elefante` devolve **três** erros de campo
 - [ ] `GET /pets/999` devolve `404` no formato padrão

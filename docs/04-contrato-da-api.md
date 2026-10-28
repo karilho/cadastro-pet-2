@@ -1,9 +1,10 @@
 # 05. Contrato da API
 
-Especificação dos endpoints do Passo 5. Quem consome a sua API (Postman, front-end, outro serviço) depende deste contrato. Siga os nomes, os formatos e os status exatamente.
+Especificação dos endpoints do Passo 4. Quem consome a sua API (Postman, front-end, outro serviço) depende deste contrato. Siga os nomes, os formatos e os status exatamente.
 
 - **Base:** `http://localhost:8080`
 - **Formato:** JSON (`Content-Type: application/json`)
+- **Front que consome este contrato:** [05-frontend.md](05-frontend.md)
 - **Regras de negócio:** [01-regras-de-negocio.md](01-regras-de-negocio.md)
 
 ## 1. Representação do pet
@@ -66,8 +67,8 @@ O mesmo JSON, **sem** `id` e **sem** `dataCadastro`. Esses dois a API gera.
 
 Pontos importantes:
 
-- Na API, `idade` e `peso` são **números JSON** com ponto. A vírgula (`"3,5"`) era conveniência do terminal e **não** vale aqui.
-- Campo opcional não informado volta como `null`. O texto `NÃO INFORMADO` não aparece na API.
+- Na API, `idade` e `peso` são **números JSON** com ponto. O front converte a vírgula digitada em ponto antes de enviar, e a API **não** aceita `"3,5"`.
+- Campo opcional não informado volta como `null`. O texto `NÃO INFORMADO` não existe na API, é o front que mostra.
 - `tipo` e `sexo` não aceitam outras variações. `"gato"` minúsculo é erro `400`.
 
 ## 2. Endpoints
@@ -115,6 +116,7 @@ Sem filtros devolve todos, ordenados por `id` crescente. Com filtros, devolve s�
 | `idadeMax` | número | Idade menor ou igual |
 | `pesoMin` | número | Peso maior ou igual |
 | `pesoMax` | número | Peso menor ou igual |
+| `cadastroMes` e `cadastroAno` | número | Data de cadastro (regra nível 2, não obrigatório) |
 
 - Nenhum resultado devolve `200 OK` com `[]`. **Não** é `404`.
 - Valor inválido de filtro (`tipo=XYZ`, `idadeMin=abc`) devolve `400`.
@@ -149,7 +151,7 @@ Exemplos (com o [seed](03-modelo-de-dados.md#8-dados-de-exemplo-seed) carregado)
 
 - Sucesso: `204 No Content`, sem corpo.
 - Inexistente: `404`.
-- A confirmação `SIM/NÃO` do terminal **não** existe na API. Quem confirma é o cliente.
+- A confirmação de exclusão **não** existe na API. Quem confirma com o usuário é o cliente (o front).
 
 ## 3. Formato de erro
 
@@ -227,7 +229,23 @@ A mensagem é sempre genérica (`Erro interno. Tente novamente mais tarde.`). O 
 }
 ```
 
-## 4. Pronto quando
+## 4. CORS: o front não é a mesma origem da API
+
+O front roda em `http://localhost:5500` e a API em `http://localhost:8080`. Para o navegador, são **origens diferentes**. Por segurança ele bloqueia a resposta da API, a menos que a API diga que aceita aquela origem. Esse mecanismo se chama **CORS**.
+
+O que a sua API precisa permitir:
+
+| Item | Valor |
+|---|---|
+| Origem | `http://localhost:5500` |
+| Métodos | `GET`, `POST`, `PUT`, `DELETE` e `OPTIONS` |
+| Headers | `Content-Type` |
+
+Sintoma de CORS faltando: o `curl` e o Postman funcionam, mas o front mostra erro e o console do navegador fala em `Access-Control-Allow-Origin`. Detalhes em [05-frontend.md](05-frontend.md).
+
+Pesquise: o que é uma requisição *preflight* (`OPTIONS`) e por que o navegador faz isso antes de um `PUT` ou `DELETE`.
+
+## 5. Pronto quando
 
 - [ ] Os cinco endpoints respondem com o status da tabela da seção 2
 - [ ] Os exemplos de `GET /pets` com filtros devolvem exatamente os ids esperados
@@ -235,3 +253,4 @@ A mensagem é sempre genérica (`Erro interno. Tente novamente mais tarde.`). O 
 - [ ] `400` lista TODOS os campos inválidos de uma vez, não só o primeiro
 - [ ] `500` nunca vaza stack trace nem nome de tabela
 - [ ] Tipo e sexo não conseguem ser alterados pelo `PUT`
+- [ ] O front pronto (`frontend/`) cadastra, lista, busca, altera e exclui sem erro de CORS

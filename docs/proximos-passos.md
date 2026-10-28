@@ -1,6 +1,6 @@
 # Próximos passos: a Parte 3 aplicada ao V2
 
-Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue a **Parte 3** do guia ([devmagro.com/roadmaps/virando-junior](https://devmagro.com/roadmaps/virando-junior)) e aplica cada tema **neste mesmo projeto**.
+Concluiu o Passo 5? O seu V2 já é um projeto de portfólio. Agora você segue a **Parte 3** do guia ([devmagro.com/roadmaps/virando-junior](https://devmagro.com/roadmaps/virando-junior)) e aplica cada tema **neste mesmo projeto**.
 
 ## Como usar esta parte
 
@@ -32,7 +32,7 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 - `Dockerfile` da API
 - `.dockerignore`
-- `docker-compose.yml` com a API e o PostgreSQL
+- `docker-compose.yml` com a API, o PostgreSQL e o front
 
 **Requisitos:**
 
@@ -40,7 +40,8 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 2. O PostgreSQL do compose carrega o `schema.sql` e o `seed.sql` no primeiro boot.
 3. A API só inicia depois que o banco está saudável (`healthcheck` e `depends_on`).
 4. Usuário, senha e URL do banco entram por **variáveis de ambiente** (arquivo `.env`, que não sobe pro Git).
-5. Os dados do banco persistem em um **volume**: `docker compose down` não apaga os pets.
+5. O front (`frontend/`) também sobe pelo compose, em um servidor web próprio, em porta própria. Ajuste o CORS da API para essa origem.
+6. Os dados do banco persistem em um **volume**: `docker compose down` não apaga os pets.
 
 **Pronto quando:**
 
@@ -67,7 +68,7 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 - [ ] Dá para cadastrar, buscar, alterar e excluir um pet só pela tela do Swagger
 - [ ] Os erros `400` e `404` aparecem documentados com exemplo
-- [ ] A documentação não fica desatualizada em relação ao [contrato](05-contrato-da-api.md)
+- [ ] A documentação não fica desatualizada em relação ao [contrato](04-contrato-da-api.md)
 
 ## 3. CI/CD (GitHub Actions)
 
@@ -79,7 +80,7 @@ Concluiu o Passo 6? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 1. Dispara em todo `push` e em todo `pull request`.
 2. Instala o JDK, usa **cache** das dependências do Maven e roda `mvn -B verify`.
-3. Roda **sem PostgreSQL**. É por isso que o Passo 6 usa H2.
+3. Roda **sem PostgreSQL**. É por isso que o Passo 5 usa H2.
 4. Publica o resultado dos testes como artefato do workflow.
 5. Badge de status do pipeline no topo do **seu** README.
 
@@ -140,7 +141,7 @@ Ao cadastrar um pet, publique uma mensagem em uma fila SQS. Um consumidor simple
 | `POST`, `PUT` e `DELETE` em `/pets` | Somente `ADMIN` |
 | `POST /auth/login` | Qualquer pessoa |
 
-6. Sem token em rota protegida: `401`. Token válido sem permissão: `403`. Ambos no [formato padrão de erro](05-contrato-da-api.md#3-formato-de-erro).
+6. Sem token em rota protegida: `401`. Token válido sem permissão: `403`. Ambos no [formato padrão de erro](04-contrato-da-api.md#3-formato-de-erro).
 
 **Pronto quando:**
 

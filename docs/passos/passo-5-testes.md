@@ -1,12 +1,12 @@
-# Passo 6: Testes
+# Passo 5: Testes
 
 Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova que as regras funcionam e garante que continuem funcionando.
 
 ## Antes de começar
 
-- Passos 1 a 5 concluídos
+- Passos 1 a 4 concluídos
 - Regras: [01-regras-de-negocio.md](../01-regras-de-negocio.md)
-- Contrato da API: [05-contrato-da-api.md](../05-contrato-da-api.md)
+- Contrato da API: [04-contrato-da-api.md](../04-contrato-da-api.md)
 - Dados fixos para os testes: [seed](../03-modelo-de-dados.md#8-dados-de-exemplo-seed)
 
 ## O que entregar
@@ -47,7 +47,7 @@ Para a API, além disso:
 
 - Cada endpoint, no caminho feliz, com o **status** certo.
 - Cada tipo de erro (`400` de validação, `400` de JSON malformado, `404`) no **formato padrão**.
-- Os exemplos da [tabela de filtros](../05-contrato-da-api.md#22-get-pets-listar-e-buscar) devolvendo os ids esperados.
+- Os exemplos da [tabela de filtros](../04-contrato-da-api.md#22-get-pets-listar-e-buscar) devolvendo os ids esperados.
 
 ### Estilo
 

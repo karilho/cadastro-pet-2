@@ -1,10 +1,10 @@
 # Passo EXTRA: Formulário dinâmico
 
-Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? Agora ele vive no banco e na API. Este passo é **opcional** e é o mais difícil.
+Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? Agora ele vive no banco e na API. Este passo é **opcional** e é o mais difícil. O front básico não tem tela para ele: teste pelo Postman ou construa a tela você mesmo.
 
 ## Antes de começar
 
-- Passos 1 a 6 concluídos (de preferência com testes passando)
+- Passos 1 a 5 concluídos (de preferência com testes passando)
 - Guia, Parte 2, seção **SQL**: `JOIN`, chave estrangeira e relacionamentos 1:N e N:N
 - Modelo: [03-modelo-de-dados.md, seção 6](../03-modelo-de-dados.md#6-passo-extra-perguntas-e-respostas)
 
@@ -21,7 +21,17 @@ Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? A
 
 1. Modele as entidades `Pergunta` e `Resposta` seguindo o [modelo](../03-modelo-de-dados.md#6-passo-extra-perguntas-e-respostas).
 2. Um pet responde cada pergunta no máximo uma vez, e o banco deve garantir isso.
-3. Carregue no seed as 7 perguntas originais do [`formulario.txt`](../../formulario.txt), marcadas como `original`.
+3. Carregue no seed as 7 perguntas originais, marcadas como `original`:
+
+   ```
+   1 - Qual o nome e sobrenome do pet?
+   2 - Qual o tipo do pet (Cachorro/Gato)?
+   3 - Qual o sexo do animal?
+   4 - Qual endereço e bairro que ele foi encontrado?
+   5 - Qual a idade aproximada do pet?
+   6 - Qual o peso aproximado do pet?
+   7 - Qual a raça do pet?
+   ```
 
 ### Regras
 
@@ -35,7 +45,7 @@ Lembra do desafio extra do V1, em que o dono do abrigo criava perguntas novas? A
 
 ### API
 
-Defina os endpoints, mantendo o padrão do [contrato](../05-contrato-da-api.md):
+Defina os endpoints, mantendo o padrão do [contrato](../04-contrato-da-api.md):
 
 | Método | Rota | O que faz |
 |---|---|---|

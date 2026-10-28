@@ -1,0 +1,24 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Segredos e configuração local (NUNCA suba senha pro Git)
+.env
+application-local.properties
+application-local.yml
+
+# Logs
+*.log
+logs/

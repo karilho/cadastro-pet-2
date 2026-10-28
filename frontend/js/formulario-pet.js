@@ -101,8 +101,8 @@ function numeroDoCampo(formulario, nome) {
 export function lerFormulario(formulario, petOriginal) {
   return {
     nomeCompleto: textoDoCampo(formulario, 'nomeCompleto'),
-    tipo: petOriginal ? petOriginal.tipo : formulario.elements.tipo.value,
-    sexo: petOriginal ? petOriginal.sexo : formulario.elements.sexo.value,
+    tipo: petOriginal ? petOriginal.tipo : textoDoCampo(formulario, 'tipo'),
+    sexo: petOriginal ? petOriginal.sexo : textoDoCampo(formulario, 'sexo'),
     endereco: {
       numeroCasa: textoDoCampo(formulario, 'numeroCasa'),
       cidade: textoDoCampo(formulario, 'cidade'),

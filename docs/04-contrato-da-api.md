@@ -85,6 +85,7 @@ Pontos importantes:
 - Na API, `idade` e `peso` são **números JSON** com ponto. O front converte a vírgula digitada em ponto antes de enviar, e a API **não** aceita `"3,5"`.
 - Campo opcional não informado volta como `null`. O texto `NÃO INFORMADO` não existe na API, é o front que mostra.
 - `tipo` e `sexo` não aceitam outras variações. `"gato"` minúsculo é erro `400`.
+- Texto vazio em `tipo` ou `sexo` (`""`) conta como **não informado**, igual a `null`. É o que o front manda quando o usuário não escolhe nada no campo, e o erro precisa sair junto com os outros erros de validação.
 
 ## 2. Endpoints
 

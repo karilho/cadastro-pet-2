@@ -1,6 +1,6 @@
 # Passo 2: Modelagem SQL
 
-Antes de escrever Java para o banco, desenhe o banco. Aqui você só escreve SQL e roda no PostgreSQL. Quase nada vem pronto, de propósito.
+Sua API do Passo 1 funciona, mas esquece tudo ao reiniciar. Antes de ligar o Java no banco, desenhe o banco. Aqui você só escreve SQL e roda no PostgreSQL. O código Java não muda neste passo. Quase nada vem pronto, de propósito.
 
 ## Antes de começar
 
@@ -72,6 +72,10 @@ Uma consulta para cada linha da [tabela de resultados esperados](../03-modelo-de
 - Marcar tudo como obrigatório e depois não conseguir cadastrar pet sem raça.
 - Esquecer de rodar o `seed.sql` depois de recriar as tabelas.
 - Criar índice em tudo "por garantia".
+
+## Ideia de solução
+
+Branch [`ideia/passo-2`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-2).
 
 ## Commit sugerido
 

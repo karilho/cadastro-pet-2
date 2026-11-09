@@ -1,6 +1,6 @@
 # Passo 5: Testes
 
-Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova que as regras funcionam e garante que continuem funcionando.
+Sistema sem teste é sistema que ninguém tem coragem de mexer. Nos Passos 1, 3 e 4 você já escreveu testes mínimos. Aqui você fecha a cobertura e garante que nada quebre.
 
 ## Antes de começar
 
@@ -14,8 +14,8 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova
 - Testes de regra de negócio (JUnit 5)
 - Testes do service (Mockito)
 - Testes do controller (`@WebMvcTest`)
-- Testes do repository (`@DataJpaTest` com H2 em memória)
-- `mvn test` passando em uma máquina limpa, **sem PostgreSQL instalado**
+- Testes do repository contra PostgreSQL real (Testcontainers)
+- `mvn test` passando em uma máquina limpa, só com Java e Docker (**sem PostgreSQL instalado**)
 
 ## Requisitos
 
@@ -26,7 +26,7 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Aqui você prova
 | Domínio e regras | JUnit 5 | Cada regra de negócio |
 | Service | JUnit 5 + Mockito | Orquestração, com o repository isolado (mock) |
 | Controller | `@WebMvcTest` + `MockMvc` | Status, corpo e formato de erro de cada endpoint |
-| Repository | `@DataJpaTest` + H2 | Consultas e filtros, sem PostgreSQL |
+| Repository | Testcontainers + PostgreSQL | Consultas e filtros no banco de verdade |
 
 ### Cobertura mínima obrigatória
 
@@ -37,10 +37,10 @@ Para **cada linha** das tabelas "válido/erro" da [seção 2 das regras](../01-r
 | Nome | válido, em branco, sem sobrenome, com número, com símbolo |
 | Tipo e sexo | cada valor válido, valor inválido, caixa diferente |
 | Número da casa | só dígitos, com letra |
-| Idade | `3`, `3,5`, `3.5`, `0,5`, limite `20`, `20,1`, `0`, negativo, texto |
-| Peso | `5`, limite `0,5`, limite `60`, `0,4`, `60,1`, texto |
+| Idade | `3`, `3.5`, `0.5`, limite `20`, `20.1`, `0`, negativo, texto (`"3,5"`) |
+| Peso | `5`, limite `0.5`, limite `60`, `0.4`, `60.1`, texto |
 | Raça | válida, com hífen, com número, com símbolo |
-| `NÃO INFORMADO` | os cinco campos opcionais em branco |
+| Campos opcionais | os cinco em branco voltam `null` |
 | Alterar | tipo e sexo preservados |
 
 Para a API, além disso:
@@ -62,9 +62,9 @@ Para a API, além disso:
 
 ### Banco nos testes
 
-1. O teste do repository usa **H2 em memória**. Nunca o PostgreSQL real.
+1. O teste do repository sobe um PostgreSQL descartável com **Testcontainers**. Nunca o seu banco de desenvolvimento.
 2. Cada teste começa com os dados que ele mesmo precisa. Nada de depender do que "já estava lá".
-3. Se algum recurso do PostgreSQL que você usou (como a busca sem acento) não existe no H2, **documente a diferença** num comentário e teste a regra no domínio.
+3. Por que não H2? Porque a busca sem acento usa recurso do PostgreSQL que o H2 não tem. Teste no banco que vai para produção.
 
 ### Bug novo, teste novo
 
@@ -73,7 +73,7 @@ A partir de agora, todo bug que você corrigir **nasce com um teste que o reprod
 ## Pronto quando
 
 - [ ] `mvn test` passa
-- [ ] `mvn test` passa **sem o PostgreSQL ligado**
+- [ ] `mvn test` passa **sem PostgreSQL instalado** (só Docker)
 - [ ] Todas as linhas das tabelas de regras têm teste
 - [ ] Todo endpoint tem teste de sucesso e de erro
 - [ ] Nenhum teste depende de ordem de execução
@@ -91,8 +91,12 @@ A partir de agora, todo bug que você corrigir **nasce com um teste que o reprod
 
 - Teste que repete o código de produção (testa que `a + b` é `a + b`).
 - `assertTrue(true)` ou teste sem `assert`.
-- Teste que só passa na sua máquina porque depende do PostgreSQL.
+- Teste que só passa na sua máquina porque depende do seu banco local.
 - Cobrir só o caminho feliz.
+
+## Ideia de solução
+
+Branch [`ideia/passo-5`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-5).
 
 ## Commit sugerido
 

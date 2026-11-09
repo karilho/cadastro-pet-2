@@ -83,6 +83,10 @@ Formato sugerido para as respostas extras no pet:
 - Escreva primeiro as consultas SQL que respondem "quais respostas tem este pet, com o texto da pergunta?". O `JOIN` aparece aqui de verdade.
 - Decida se a numeração é guardada ou calculada. Cada opção tem custo.
 
+## Ideia de solução
+
+Branch [`ideia/extra`](https://github.com/karilho/cadastro-pet-2/tree/ideia/extra).
+
 ## Commit sugerido
 
 ```

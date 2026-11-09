@@ -185,7 +185,7 @@ Permita filtrar por **data de cadastro** (mês e ano), combinável com os outros
 2. A confirmação (`Deseja realmente excluir?`) é responsabilidade do **front**. A API apenas exclui.
 3. Pet inexistente: `Pet não encontrado.`
 
-## 8. Resumo para a API (Passo 4)
+## 8. Resumo para a API (Passo 1)
 
 As mesmas regras viram:
 

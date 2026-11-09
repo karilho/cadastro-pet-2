@@ -80,7 +80,7 @@ Concluiu o Passo 5? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 1. Dispara em todo `push` e em todo `pull request`.
 2. Instala o JDK, usa **cache** das dependências do Maven e roda `mvn -B verify`.
-3. Roda **sem PostgreSQL**. É por isso que o Passo 5 usa H2.
+3. Não depende de PostgreSQL instalado: os testes de repositório sobem o banco com Testcontainers (o runner do GitHub já tem Docker).
 4. Publica o resultado dos testes como artefato do workflow.
 5. Badge de status do pipeline no topo do **seu** README.
 

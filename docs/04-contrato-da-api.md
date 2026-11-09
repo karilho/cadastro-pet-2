@@ -1,6 +1,6 @@
 # 05. Contrato da API
 
-Especificação dos endpoints do Passo 4. Quem consome a sua API (Postman, front-end, outro serviço) depende deste contrato. Siga os nomes, os formatos e os status exatamente.
+Especificação dos endpoints que a sua API cumpre desde o Passo 1. Quem consome a sua API (Postman, front-end, outro serviço) depende deste contrato. Siga os nomes, os formatos e os status exatamente.
 
 - **Base:** `http://localhost:8080`
 - **Formato:** JSON (`Content-Type: application/json`)

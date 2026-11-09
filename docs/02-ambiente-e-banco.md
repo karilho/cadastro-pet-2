@@ -1,6 +1,6 @@
 # 02. Ambiente e banco de dados
 
-Antes do Passo 1, deixe o ambiente pronto. Aqui você descobre **o que** precisa existir. O **como** fazer no banco é com você: pesquise na documentação oficial e no que aprendeu no curso de SQL.
+Antes do Passo 1, deixe Java, Maven e o front prontos. O banco (seção 2) só é necessário a partir do Passo 2. Aqui você descobre **o que** precisa existir. O **como** fazer no banco é com você: pesquise na documentação oficial e no que aprendeu no curso de SQL.
 
 ## 1. O que instalar
 
@@ -12,7 +12,7 @@ Antes do Passo 1, deixe o ambiente pronto. Aqui você descobre **o que** precisa
 | Cliente de banco (DBeaver, pgAdmin ou o `psql`) | Qualquer | Rodar SQL e ver os dados |
 | IntelliJ IDEA (Community) | Qualquer recente | IDE |
 | Git | Qualquer recente | Versionamento |
-| Cliente HTTP (Postman, Insomnia ou `curl`) | Qualquer | Testar a API no Passo 4 |
+| Cliente HTTP (Postman, Insomnia ou `curl`) | Qualquer | Testar a API desde o Passo 1 |
 | Python 3 ou Node.js | Qualquer recente | Servir o front pronto (`frontend/`), ver [05-frontend.md](05-frontend.md) |
 
 Confira no terminal:
@@ -85,7 +85,7 @@ Variáveis usadas:
 - No terminal: `export DB_USER=...` (macOS/Linux) antes de rodar.
 - No IntelliJ: *Run > Edit Configurations > Environment variables*.
 - No código: `System.getenv("DB_USER")`.
-- No Spring Boot (Passo 4): `spring.datasource.url=${DB_URL}` no `application.properties`.
+- No Spring Boot (a partir do Passo 3): `spring.datasource.url=${DB_URL}` no `application.properties`.
 
 O `.env` não é lido sozinho pelo Java. Quem carrega é você (terminal ou IntelliJ).
 
@@ -118,8 +118,8 @@ Dentro de `src/main/java`, uma organização possível para o projeto crescer se
 | `exception` | Exceções de regra de negócio |
 | `repository` | Acesso ao banco |
 | `service` | Regras de negócio que não cabem no model |
-| `controller` | Endpoints (Passo 4) |
-| `dto` | Objetos de entrada e saída da API (Passo 4) |
+| `controller` | Endpoints (Passo 1) |
+| `dto` | Objetos de entrada e saída da API (Passo 1) |
 
 ## 5. Problemas comuns de conexão
 

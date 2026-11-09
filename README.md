@@ -22,11 +22,13 @@ Guia completo: [devmagro.com/roadmaps/virando-estagiario](https://devmagro.com/r
 ## Objetivo
 Pegar o domínio do V1 (um abrigo que cadastra pets para adoção) e reconstruí-lo como backend, em camadas:
 
-1. Projeto Maven com o domínio e as regras do V1
+1. API REST com Spring Boot guardando em memória, com o front funcionando de ponta a ponta
 2. Banco de dados relacional modelado com SQL
-3. Persistência com JDBC puro
-4. API REST com Spring Boot, conversando com o front pronto
+3. A API gravando no banco com JDBC puro
+4. A mesma API com Spring Data JPA, comparando com o JDBC
 5. Testes automatizados
+
+Do Passo 1 ao 4, **o controller e o service não mudam**: só o jeito de guardar os dados. Essa é a prova de que as camadas estão bem separadas.
 
 Depois do Passo 5, você segue para os [próximos passos](docs/proximos-passos.md), que são a **Parte 3** do guia aplicada no mesmo projeto.
 
@@ -51,9 +53,9 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 6. Crie o projeto você mesmo, do zero. Usar o gerador pronto sem entender o que ele gera é o caminho mais fácil de não aprender.
 7. Faça **um commit por funcionalidade** concluída, seguindo [Conventional Commits](https://www.youtube.com/watch?v=sbK9h45Jc5o).
 8. Organize pastas, pacotes e nomes como achar melhor. **Não existe um caminho certo.**
-9. Só olhe as ideias de solução depois de tentar. Elas estão em outras branches, e o guia explica onde ao final da Parte 2.
+9. Só olhe as ideias de solução depois de tentar. Elas estão em outras branches, listadas no mapa abaixo.
 
-**Requisitos de ambiente:** Java 17 ou superior, Maven, PostgreSQL 15 ou superior, Git, Python 3 ou Node.js (só para servir o front) e uma IDE (IntelliJ, por exemplo).
+**Requisitos de ambiente:** Java 17 ou superior, Maven, Git, Python 3 ou Node.js (só para servir o front) e uma IDE (IntelliJ, por exemplo). A partir do Passo 2: PostgreSQL 15 ou superior. A partir do Passo 3: Docker (para os testes do repositório).
 
 ## Endpoints que o seu backend precisa ter
 
@@ -176,12 +178,16 @@ Se o seu backend não responder, o front **mostra um aviso de erro** na tela. El
 
 | Passo | Documento | Resultado |
 |---|---|---|
-| 1 | [Projeto Maven e domínio](docs/passos/passo-1-projeto-maven-e-dominio.md) | Pet e regras de negócio em Java |
-| 2 | [Modelagem SQL](docs/passos/passo-2-modelagem-sql.md) | `schema.sql`, `seed.sql` e `queries.sql` |
-| 3 | [Persistência com JDBC](docs/passos/passo-3-persistencia-jdbc.md) | Repositório de pets com JDBC puro |
-| 4 | [API REST com Spring Boot](docs/passos/passo-4-api-rest.md) | Cinco endpoints, validação, erros e o front funcionando |
-| 5 | [Testes](docs/passos/passo-5-testes.md) | Regras, service, controller e repository testados |
-| EXTRA | [Formulário dinâmico](docs/passos/passo-extra-formulario-dinamico.md) | Perguntas e respostas no banco (opcional) |
+| Passo | Documento | Resultado | Ideia de solução |
+|---|---|---|---|
+| 1 | [API em memória](docs/passos/passo-1-api-em-memoria.md) | Cinco endpoints, validação, erros e o front funcionando, sem banco | [`ideia/passo-1`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-1) |
+| 2 | [Modelagem SQL](docs/passos/passo-2-modelagem-sql.md) | `schema.sql`, `seed.sql` e `queries.sql` | [`ideia/passo-2`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-2) |
+| 3 | [Repositório JDBC](docs/passos/passo-3-persistencia-jdbc.md) | A API gravando no PostgreSQL com JDBC puro | [`ideia/passo-3`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-3) |
+| 4 | [Repositório JPA](docs/passos/passo-4-spring-data-jpa.md) | A mesma API com Spring Data JPA | [`ideia/passo-4`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-4) |
+| 5 | [Testes](docs/passos/passo-5-testes.md) | Cobertura completa, repositório testado no PostgreSQL real | [`ideia/passo-5`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-5) |
+| EXTRA | [Formulário dinâmico](docs/passos/passo-extra-formulario-dinamico.md) | Perguntas e respostas no banco (opcional) | [`ideia/extra`](https://github.com/karilho/cadastro-pet-2/tree/ideia/extra) |
+
+> **Ideias de solução:** cada passo tem uma branch com **uma** forma de resolver. Não é o único caminho. Tente antes de olhar. Se travar de vez num passo, você pode partir da ideia dele para o próximo.
 
 ### Depois
 
@@ -215,7 +221,7 @@ python3 -m http.server 5500 --directory frontend
 # 4. Banco de dados: siga docs/02-ambiente-e-banco.md
 ```
 
-Depois é só abrir o [Passo 1](docs/passos/passo-1-projeto-maven-e-dominio.md).
+Depois é só abrir o [Passo 1](docs/passos/passo-1-api-em-memoria.md).
 
 ## Considerações Finais
 

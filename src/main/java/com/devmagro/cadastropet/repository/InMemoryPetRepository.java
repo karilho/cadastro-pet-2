@@ -1,6 +1,7 @@
 package com.devmagro.cadastropet.repository;
 
 import com.devmagro.cadastropet.model.Pet;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -15,9 +16,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Guarda os pets em memória. Os dados somem quando a aplicação reinicia.
- * Existe só para o Passo 1: o front funciona de ponta a ponta sem banco de dados.
+ * Era a implementação do Passo 1. Continua disponível com o profile "memoria"
+ * (rode com --spring.profiles.active=memoria e sem banco).
  */
 @Repository
+@Profile("memoria")
 public class InMemoryPetRepository implements PetRepository {
 
     private final Map<Long, Pet> pets = new ConcurrentHashMap<>();

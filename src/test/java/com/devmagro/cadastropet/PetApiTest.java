@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("API de pets")
-class PetApiTest {
+class PetApiTest extends ComBancoDeTeste {
 
     private static final String ORIGEM_DO_FRONT = "http://localhost:5500";
 

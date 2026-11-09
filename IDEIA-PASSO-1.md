@@ -20,6 +20,10 @@ python3 -m http.server 5500 --directory frontend
 
 Abra http://localhost:5500. A lista começa **vazia**: cadastre pelo menu. Testes: `mvn test`.
 
+> Esta ideia traz **mais testes** do que o mínimo do Passo 1 (83 testes de service e de API). É de propósito: eles cobrem o contrato inteiro e vão garantir, nos Passos 3 e 4, que trocar o armazenamento não quebrou nada.
+
+**Convenção de nomes:** domínio em português (`Pet`, `Endereco`, `Mensagens`), sufixos técnicos em inglês (`Controller`, `Service`, `Repository`), nomes de teste em inglês descrevendo comportamento.
+
 ## Estrutura
 
 | Pacote | O que mora aqui |

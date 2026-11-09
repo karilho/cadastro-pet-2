@@ -12,15 +12,17 @@ Concluiu o Passo 5? O seu V2 já é um projeto de portfólio. Agora você segue 
 
 ## Resumo
 
-| Tema | Entrega no V2 | Seção da Parte 3 |
-|---|---|---|
-| Docker | `Dockerfile` e `docker-compose` com API e PostgreSQL | Docker |
-| Swagger | Todos os endpoints documentados com OpenAPI | Swagger |
-| CI/CD | Pipeline do GitHub Actions rodando build e testes | CI/CD |
-| Cloud | Deploy na AWS e foto do pet no S3 | Cloud |
-| Segurança | Login com JWT protegendo escrita | Segurança |
-| NoSQL | Histórico de alterações no MongoDB | NoSQL |
-| Cache | Cache com Redis na leitura | Cache |
+| Tema | Entrega no V2 | Seção da Parte 3 | Ideia de solução |
+|---|---|---|---|
+| Docker | `Dockerfile` e `docker-compose` com API, PostgreSQL e front | Docker | [`next/docker`](https://github.com/karilho/cadastro-pet-2/tree/next/docker) |
+| Swagger | Todos os endpoints documentados com OpenAPI | Swagger | [`next/swagger`](https://github.com/karilho/cadastro-pet-2/tree/next/swagger) |
+| CI/CD | Pipeline do GitHub Actions rodando build e testes | CI/CD | [`next/ci`](https://github.com/karilho/cadastro-pet-2/tree/next/ci) |
+| Cloud | Deploy na AWS e foto do pet no S3 | Cloud | em breve |
+| Segurança | Login com JWT protegendo escrita | Segurança | em breve |
+| NoSQL | Histórico de alterações no MongoDB | NoSQL | em breve |
+| Cache | Cache com Redis na leitura | Cache | em breve |
+
+As branches `next/*` partem da [`ideia/final`](https://github.com/karilho/cadastro-pet-2/tree/ideia/final), que é a solução completa dos Passos 1 a 5.
 
 ---
 

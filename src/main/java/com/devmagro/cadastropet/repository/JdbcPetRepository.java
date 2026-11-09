@@ -25,7 +25,7 @@ import java.util.Optional;
  * getBigDecimal devolve null para coluna NULL (getInt e getDouble devolveriam 0).
  */
 @Repository
-@Profile("!memoria")
+@Profile("jdbc")
 public class JdbcPetRepository implements PetRepository {
 
     private static final String COLUNAS =

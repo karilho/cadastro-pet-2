@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Testa a implementação ativa de PetRepository contra o PostgreSQL real, com o seed da documentação.
  */
 @SpringBootTest
-@DisplayName("PetRepository no PostgreSQL")
+@DisplayName("PetRepository no PostgreSQL (JPA, padrão)")
 class PetRepositoryTest extends ComBancoDeTeste {
 
     @Autowired

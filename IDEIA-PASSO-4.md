@@ -38,7 +38,7 @@ Banco e variáveis de ambiente: igual ao Passo 3.
 
 | | JDBC | JPA |
 |---|---|---|
-| Linhas do repositório | ~175 | ~190 em 4 arquivos, mas quase nada de SQL |
+| Linhas do repositório | ~190 em 1 arquivo | ~215 em 4 arquivos, quase sem SQL |
 | SQL | Escrito à mão | Gerado (ligue `spring.jpa.show-sql=true` para ver) |
 | Mapeamento linha → objeto | Método `paraPet(ResultSet)` | Anotações na `PetEntity` |
 | Busca dinâmica | `StringBuilder` + lista de parâmetros | Specification |

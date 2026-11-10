@@ -6,7 +6,7 @@ Antes do Passo 1, deixe Java, Maven e o front prontos. O banco (seção 2) só �
 
 | Ferramenta | Versão | Para que serve |
 |---|---|---|
-| JDK | 17 ou superior | Compilar e rodar o Java |
+| JDK | 21 ou superior | Compilar e rodar o Java |
 | Maven | 3.9 ou superior | Dependências e build |
 | PostgreSQL | 15 ou superior | Banco de dados |
 | Cliente de banco (DBeaver, pgAdmin ou o `psql`) | Qualquer | Rodar SQL e ver os dados |

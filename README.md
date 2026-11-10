@@ -55,7 +55,7 @@ Este repositório tem **as orientações e o front pronto**. O backend é seu.
 8. Organize pastas, pacotes e nomes como achar melhor. **Não existe um caminho certo.**
 9. Só olhe as ideias de solução depois de tentar. Elas estão em outras branches, listadas no mapa abaixo.
 
-**Requisitos de ambiente:** Java 17 ou superior, Maven, Git, Python 3 ou Node.js (só para servir o front) e uma IDE (IntelliJ, por exemplo). A partir do Passo 2: PostgreSQL 15 ou superior. A partir do Passo 3: Docker (para os testes do repositório).
+**Requisitos de ambiente:** Java 21 ou superior, Maven, Git, Python 3 ou Node.js (só para servir o front) e uma IDE (IntelliJ, por exemplo). A partir do Passo 2: PostgreSQL 15 ou superior. A partir do Passo 3: Docker (para os testes do repositório).
 
 ## Endpoints que o seu backend precisa ter
 

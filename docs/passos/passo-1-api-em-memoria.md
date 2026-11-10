@@ -11,7 +11,7 @@ Construa o backend inteiro, com os 5 endpoints do [README](../../README.md#endpo
 
 ## O que entregar
 
-- Projeto Maven com Spring Boot 3 (Java 17 ou superior) que sobe com `mvn spring-boot:run` na porta 8080
+- Projeto Maven com Spring Boot 3 (Java 21 ou superior) que sobe com `mvn spring-boot:run` na porta 8080
 - Os 5 endpoints do README funcionando
 - Camadas separadas: controller, service e repositório
 - Validação de TODAS as regras de negócio, com as mensagens padrão

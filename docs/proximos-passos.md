@@ -1,28 +1,28 @@
 # Próximos passos: a Parte 3 aplicada ao V2
 
-Concluiu o Passo 5? O seu V2 já é um projeto de portfólio. Agora você segue a **Parte 3** do guia ([devmagro.com/roadmaps/virando-junior](https://devmagro.com/roadmaps/virando-junior)) e aplica cada tema **neste mesmo projeto**.
+Concluiu o Passo 5? O seu V2 já é um projeto de portfólio. Daqui pra frente é com você: siga a **Parte 3** do guia ([devmagro.com/roadmaps/virando-junior](https://devmagro.com/roadmaps/virando-junior)) e aplique cada tema **neste mesmo projeto**.
+
+Esta parte é **aberta**. Não tem requisito fechado nem solução pronta. Cada tema traz um objetivo e ideias pra explorar. Você decide o escopo, integra do seu jeito e, se quiser, faz o front também.
 
 ## Como usar esta parte
 
 - Cada tema é independente. Faça na ordem que quiser, não é obrigatório fazer todos.
 - A ordem do guia (Docker, Swagger, CI/CD, Cloud, Segurança, NoSQL, Cache) é uma boa ordem, porque cada tema ajuda o seguinte.
 - Cada tema vira **um commit ou um grupo de commits** próprio.
-- Cada tema mantém o `mvn test` passando.
-- Atualize o **seu** README a cada tema concluído.
+- Mantenha o `mvn test` passando.
+- Atualize o **seu** README a cada tema: o que fez, por que fez assim e como rodar.
 
 ## Resumo
 
-| Tema | Entrega no V2 | Seção da Parte 3 | Ideia de solução |
-|---|---|---|---|
-| Docker | `Dockerfile` e `docker-compose` com API, PostgreSQL e front | Docker | [`next/docker`](https://github.com/karilho/cadastro-pet-2/tree/next/docker) |
-| Swagger | Todos os endpoints documentados com OpenAPI | Swagger | [`next/swagger`](https://github.com/karilho/cadastro-pet-2/tree/next/swagger) |
-| CI/CD | Pipeline do GitHub Actions rodando build e testes | CI/CD | [`next/ci`](https://github.com/karilho/cadastro-pet-2/tree/next/ci) |
-| Cloud | Deploy na AWS e foto do pet no S3 | Cloud | em breve |
-| Segurança | Login com JWT protegendo escrita | Segurança | em breve |
-| NoSQL | Histórico de alterações no MongoDB | NoSQL | em breve |
-| Cache | Cache com Redis na leitura | Cache | em breve |
-
-As branches `next/*` partem da [`ideia/final`](https://github.com/karilho/cadastro-pet-2/tree/ideia/final), que é a solução completa dos Passos 1 a 5.
+| Tema | Sugestão pro V2 | Seção da Parte 3 |
+|---|---|---|
+| Docker | Subir API, PostgreSQL e front com um comando | Docker |
+| Swagger | Documentar os endpoints com OpenAPI | Swagger |
+| CI/CD | Pipeline rodando build e testes a cada push | CI/CD |
+| Cloud | Foto do pet no S3 e deploy na AWS | Cloud |
+| Segurança | Login com JWT protegendo a escrita | Segurança |
+| NoSQL | Histórico de alterações no MongoDB | NoSQL |
+| Cache | Cache com Redis na leitura | Cache |
 
 ---
 
@@ -30,168 +30,87 @@ As branches `next/*` partem da [`ideia/final`](https://github.com/karilho/cadast
 
 **Objetivo:** subir o sistema inteiro com um comando, em qualquer máquina.
 
-**Entregar:**
+**Ideias pra explorar:**
 
-- `Dockerfile` da API
-- `.dockerignore`
-- `docker-compose.yml` com a API, o PostgreSQL e o front
-
-**Requisitos:**
-
-1. O `Dockerfile` gera a imagem a partir do projeto Maven.
-2. O PostgreSQL do compose carrega o `schema.sql` e o `seed.sql` no primeiro boot.
-3. A API só inicia depois que o banco está saudável (`healthcheck` e `depends_on`).
-4. Usuário, senha e URL do banco entram por **variáveis de ambiente** (arquivo `.env`, que não sobe pro Git).
-5. O front (`frontend/`) também sobe pelo compose, em um servidor web próprio, em porta própria. Ajuste o CORS da API para essa origem.
-6. Os dados do banco persistem em um **volume**: `docker compose down` não apaga os pets.
-
-**Pronto quando:**
-
-- [ ] `docker compose up` sobe tudo do zero e `GET /pets` responde
-- [ ] Os 10 pets do seed aparecem no primeiro boot
-- [ ] `docker compose down` e `up` de novo mantêm os dados
-- [ ] Nenhuma senha escrita no `docker-compose.yml`
+- `Dockerfile` da API, de preferência multi-stage e com usuário sem root.
+- `docker-compose.yml` com a API, o PostgreSQL e o front.
+- O banco carregando o `schema.sql` e o `seed.sql` no primeiro boot.
+- A API esperando o banco ficar saudável (`healthcheck` e `depends_on`).
+- Senha e URL do banco em variáveis de ambiente (`.env` fora do Git).
+- Volume pro banco, pra `docker compose down` não apagar os pets.
 
 ## 2. Swagger (OpenAPI)
 
 **Objetivo:** quem usa a sua API entende tudo sem perguntar nada.
 
-**Entregar:** documentação gerada com `springdoc-openapi`, acessível pelo navegador.
+**Ideias pra explorar:**
 
-**Requisitos:**
-
-1. Todos os endpoints aparecem, com descrição do que fazem.
-2. Cada endpoint documenta os status possíveis (`200`, `201`, `204`, `400`, `404`).
-3. O formato de erro padrão aparece como schema.
-4. Cada parâmetro de filtro do `GET /pets` tem descrição e exemplo.
-5. Exemplos de corpo para `POST` e `PUT`.
-
-**Pronto quando:**
-
-- [ ] Dá para cadastrar, buscar, alterar e excluir um pet só pela tela do Swagger
-- [ ] Os erros `400` e `404` aparecem documentados com exemplo
-- [ ] A documentação não fica desatualizada em relação ao [contrato](04-contrato-da-api.md)
+- `springdoc-openapi` gerando a documentação no navegador.
+- Descrição de cada endpoint e dos status possíveis (`200`, `201`, `204`, `400`, `404`).
+- O formato de erro padrão como schema.
+- Descrição e exemplo pra cada filtro do `GET /pets` e pro corpo de `POST` e `PUT`.
 
 ## 3. CI/CD (GitHub Actions)
 
 **Objetivo:** o GitHub verifica o seu código a cada alteração, sem você pedir.
 
-**Entregar:** `.github/workflows/ci.yml`.
+**Ideias pra explorar:**
 
-**Requisitos:**
-
-1. Dispara em todo `push` e em todo `pull request`.
-2. Instala o JDK, usa **cache** das dependências do Maven e roda `mvn -B verify`.
-3. Não depende de PostgreSQL instalado: os testes de repositório sobem o banco com Testcontainers (o runner do GitHub já tem Docker).
-4. Publica o resultado dos testes como artefato do workflow.
-5. Badge de status do pipeline no topo do **seu** README.
-
-**Pronto quando:**
-
-- [ ] Um commit com teste quebrado deixa o pipeline **vermelho**
-- [ ] Corrigir deixa **verde**
-- [ ] O badge aparece no README e reflete o estado real
-
-**Desafio extra:** proteger a branch `main` para só aceitar merge com o pipeline verde.
+- `.github/workflows/ci.yml` disparando em todo `push` e `pull request`.
+- JDK com cache das dependências do Maven e `mvn -B verify`.
+- Testes de repositório com Testcontainers (o runner do GitHub já tem Docker).
+- Badge do pipeline no topo do README.
+- Proteger a `main` pra só aceitar merge com pipeline verde.
 
 ## 4. Cloud (AWS)
 
 **Objetivo:** o sistema fora do seu computador, com um recurso de nuvem de verdade.
 
-### 4.1 Foto do pet no S3
+**Ideias pra explorar:**
 
-1. Novo endpoint `POST /pets/{id}/foto` (envio de arquivo).
-2. Aceita só imagem (`jpg` e `png`) e de até 2MB. Fora disso, `400` no formato padrão.
-3. O arquivo vai para um bucket S3. No banco fica só a **chave** do arquivo (nova coluna no `pet`).
-4. `GET /pets/{id}` devolve um link temporário para ver a foto.
-5. **Credenciais da AWS nunca ficam no código** nem no Git.
+- Endpoint pra enviar a foto do pet, guardando o arquivo no S3 e só a chave no banco.
+- Link temporário (presigned URL) pra ver a foto.
+- Rodar o S3 local com LocalStack pra estudar sem gastar.
+- Deploy numa máquina EC2 com o seu `docker-compose`, abrindo só as portas necessárias.
+- Uma fila SQS recebendo uma mensagem a cada pet cadastrado.
 
-### 4.2 Deploy
-
-1. A aplicação roda em uma máquina na AWS (EC2 com o seu `docker-compose`, por exemplo).
-2. Só as portas necessárias ficam abertas.
-3. Segredos (senha do banco, chaves) vêm de variáveis de ambiente ou do Systems Manager, nunca do repositório.
-
-### 4.3 Fila (opcional)
-
-Ao cadastrar um pet, publique uma mensagem em uma fila SQS. Um consumidor simples lê e registra no log. Isso demonstra o conceito de processamento assíncrono.
-
-**Pronto quando:**
-
-- [ ] A URL pública responde `GET /pets`
-- [ ] Subir uma foto e abri-la pelo link funciona
-- [ ] Nenhuma credencial da AWS no repositório (inclusive no histórico)
-- [ ] Você explica para que serve cada serviço que usou
+**Cuidado:** credenciais da AWS nunca no código nem no Git, nem no histórico. Configure alerta de custo antes de criar qualquer recurso.
 
 ## 5. Segurança (Spring Security + JWT)
 
 **Objetivo:** ler é público, escrever exige login.
 
-**Entregar:** autenticação com token JWT.
+**Ideias pra explorar:**
 
-**Requisitos:**
-
-1. Tabela `usuario`: `id`, `email` (único), `senha_hash`, `papel` (`USER` ou `ADMIN`).
-2. A senha é guardada com **hash BCrypt**. Nunca em texto puro.
-3. `POST /auth/login` recebe email e senha e devolve um token JWT.
-4. O token tem **expiração**. O segredo de assinatura vem de variável de ambiente.
-5. Regras de acesso:
-
-| Rota | Quem pode |
-|---|---|
-| `GET /pets` e `GET /pets/{id}` | Qualquer pessoa |
-| `POST`, `PUT` e `DELETE` em `/pets` | Somente `ADMIN` |
-| `POST /auth/login` | Qualquer pessoa |
-
-6. Sem token em rota protegida: `401`. Token válido sem permissão: `403`. Ambos no [formato padrão de erro](04-contrato-da-api.md#3-formato-de-erro).
-
-**Pronto quando:**
-
-- [ ] `POST /pets` sem token devolve `401`
-- [ ] `POST /pets` com token `USER` devolve `403`
-- [ ] `POST /pets` com token `ADMIN` devolve `201`
-- [ ] Nenhuma senha em texto puro no banco nem nos logs
-- [ ] Tem teste para cada linha da tabela de acesso
+- Tabela de usuário com senha em hash BCrypt, nunca em texto puro.
+- `POST /auth/login` devolvendo um token JWT com expiração.
+- Segredo de assinatura em variável de ambiente.
+- Papéis (`USER` e `ADMIN`): leitura aberta, escrita só pra `ADMIN`.
+- `401` sem token e `403` sem permissão, no formato padrão de erro.
+- Tela de login no front.
 
 ## 6. NoSQL (MongoDB)
 
-**Objetivo:** usar o banco certo para o dado certo. O histórico de alterações é um dado de log, ótimo para documento.
+**Objetivo:** usar o banco certo pro dado certo. Histórico de alterações é dado de log, ótimo pra documento.
 
-**Entregar:** coleção `historico_pet` no MongoDB.
+**Ideias pra explorar:**
 
-**Requisitos:**
-
-1. Cada criação, alteração e exclusão de pet grava um documento com: `petId`, `acao` (`CRIADO`, `ALTERADO` ou `EXCLUIDO`), `em` (data e hora), `antes` e `depois` (o estado do pet).
-2. Novo endpoint `GET /pets/{id}/historico`, do mais recente para o mais antigo.
-3. O **PostgreSQL continua sendo a fonte da verdade**. O Mongo só guarda o histórico.
-4. Decida e **documente no seu README**: se o Mongo cair, o cadastro do pet falha ou segue? Justifique.
-
-**Pronto quando:**
-
-- [ ] Criar, alterar e excluir geram um documento cada
-- [ ] O histórico de um pet aparece em ordem
-- [ ] Você explica por que esse dado ficou no Mongo e não no PostgreSQL
+- Um documento por criação, alteração e exclusão de pet, com o estado antes e depois.
+- `GET /pets/{id}/historico` do mais recente pro mais antigo.
+- O PostgreSQL continua sendo a fonte da verdade. O Mongo só guarda o histórico.
+- Decidir e explicar no README: se o Mongo cair, o cadastro falha ou segue?
 
 ## 7. Cache (Redis)
 
 **Objetivo:** responder mais rápido sem sobrecarregar o banco.
 
-**Entregar:** cache na leitura de pets.
+**Ideias pra explorar:**
 
-**Requisitos:**
-
-1. Cache em `GET /pets/{id}` e na listagem com filtros.
-2. A chave do cache da listagem **inclui os filtros** (`nome=flor` e `nome=rex` não podem compartilhar resposta).
-3. Defina um tempo de expiração (TTL) e justifique o valor.
-4. Todo `POST`, `PUT` e `DELETE` **invalida** o que ficou desatualizado.
-5. **Meça** antes e depois (tempo de resposta e quantidade de consultas ao banco) e registre os números no seu README.
-
-**Pronto quando:**
-
-- [ ] A segunda chamada igual não consulta o banco
-- [ ] Alterar um pet e buscar de novo devolve o dado novo, não o antigo
-- [ ] Você mostra os números antes e depois
-- [ ] Você explica o risco de dado desatualizado e como o seu projeto evita isso
+- Cache em `GET /pets/{id}` e na listagem.
+- A chave da listagem incluindo os filtros (`nome=flor` e `nome=rex` não podem compartilhar resposta).
+- Um TTL com justificativa.
+- `POST`, `PUT` e `DELETE` invalidando o que ficou desatualizado.
+- Medir antes e depois (tempo de resposta e consultas ao banco) e colocar os números no README.
 
 ---
 

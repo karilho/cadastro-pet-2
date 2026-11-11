@@ -176,8 +176,6 @@ Se o seu backend não responder, o front **mostra um aviso de erro** na tela. El
 
 ### Passos (faça em ordem)
 
-| Passo | Documento | Resultado |
-|---|---|---|
 | Passo | Documento | Resultado | Ideia de solução |
 |---|---|---|---|
 | 1 | [API em memória](docs/passos/passo-1-api-em-memoria.md) | Cinco endpoints, validação, erros e o front funcionando, sem banco | [`ideia/passo-1`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-1) |
@@ -185,15 +183,22 @@ Se o seu backend não responder, o front **mostra um aviso de erro** na tela. El
 | 3 | [Repositório JDBC](docs/passos/passo-3-persistencia-jdbc.md) | A API gravando no PostgreSQL com JDBC puro | [`ideia/passo-3`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-3) |
 | 4 | [Repositório JPA](docs/passos/passo-4-spring-data-jpa.md) | A mesma API com Spring Data JPA | [`ideia/passo-4`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-4) |
 | 5 | [Testes](docs/passos/passo-5-testes.md) | Cobertura completa, repositório testado no PostgreSQL real | [`ideia/passo-5`](https://github.com/karilho/cadastro-pet-2/tree/ideia/passo-5) |
-| EXTRA | [Formulário dinâmico](docs/passos/passo-extra-formulario-dinamico.md) | Perguntas e respostas no banco (opcional) | [`ideia/extra`](https://github.com/karilho/cadastro-pet-2/tree/ideia/extra) |
 
 > **Ideias de solução:** cada passo tem uma branch com **uma** forma de resolver. Não é o único caminho. Tente antes de olhar. Se travar de vez num passo, você pode partir da ideia dele para o próximo.
+
+### Extras (em aberto)
+
+Depois do core, é com você. Os extras são sugestões: sem requisito fechado e sem solução pronta. Você decide o escopo, integra do seu jeito e faz o front se quiser.
+
+| Documento | Sugestão |
+|---|---|
+| [Formulário dinâmico](docs/passos/passo-extra-formulario-dinamico.md) | Perguntas e respostas guardadas no banco |
+| [Próximos passos](docs/proximos-passos.md) | Docker, Swagger, CI/CD, Cloud, Segurança, NoSQL e Cache aplicados no V2 |
 
 ### Depois
 
 | Documento | O que tem |
 |---|---|
-| [Próximos passos](docs/proximos-passos.md) | Docker, Swagger, CI/CD, Cloud, Segurança, NoSQL e Cache aplicados no V2 |
 | [Checklist de entrega](docs/checklist-de-entrega.md) | O que conferir antes de dizer "terminei" |
 
 ## Arquivos prontos neste repositório

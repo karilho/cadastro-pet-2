@@ -71,9 +71,9 @@ O endereço deixa de ser parte do pet e vira sua própria entidade.
 
 Relacionamento: **um pet tem um endereço**. Como o pet referencia o endereço, e o que acontece com o endereço quando o pet é excluído, é decisão sua.
 
-## 6. Passo EXTRA: perguntas e respostas
+## 6. Extra: perguntas e respostas
 
-Só para quem fizer o formulário dinâmico.
+Só para quem fizer o formulário dinâmico. É uma sugestão de modelo: adapte como quiser.
 
 ### Entidade Pergunta
 

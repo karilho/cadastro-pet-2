@@ -5,6 +5,7 @@ Sistema sem teste é sistema que ninguém tem coragem de mexer. Nos Passos 1, 3 
 ## Antes de começar
 
 - Passos 1 a 4 concluídos
+- Guia, Parte 2, seção **Web em Java**, subseção **Testes automatizados**
 - Regras: [01-regras-de-negocio.md](../01-regras-de-negocio.md)
 - Contrato da API: [04-contrato-da-api.md](../04-contrato-da-api.md)
 - Dados fixos para os testes: [seed](../03-modelo-de-dados.md#8-dados-de-exemplo-seed)

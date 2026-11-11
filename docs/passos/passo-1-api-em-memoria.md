@@ -4,7 +4,7 @@ Construa o backend inteiro, com os 5 endpoints do [README](../../README.md#endpo
 
 ## Antes de começar
 
-- Guia, Parte 2, seção **Web em Java: criando API's REST com Spring Boot**
+- Guia, Parte 2, seção **Web em Java: aprendendo a criar APIs REST com Spring Boot**, incluindo **Validação e tratamento de erros**
 - Regras: [01-regras-de-negocio.md](../01-regras-de-negocio.md)
 - Contrato: [04-contrato-da-api.md](../04-contrato-da-api.md)
 - Front: [05-frontend.md](../05-frontend.md)

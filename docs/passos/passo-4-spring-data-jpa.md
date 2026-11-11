@@ -5,7 +5,7 @@ Agora que você escreveu cada SQL na mão, deixe o Spring gerar. Crie uma **terc
 ## Antes de começar
 
 - Passo 3 concluído
-- Guia, Parte 2, seção **Web em Java**: Spring Data JPA
+- Guia, Parte 2, seção **Web em Java**, subseção **Spring Data JPA**
 
 ## O que entregar
 
